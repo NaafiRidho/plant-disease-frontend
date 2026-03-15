@@ -60,35 +60,36 @@ export default function DeteksiPage() {
     <div style={{ minHeight: '100vh', paddingTop: '88px', paddingBottom: '4rem' }}>
       {/* Page header */}
       <div style={{
-        background: 'linear-gradient(180deg, rgba(34,197,94,0.06) 0%, transparent 100%)',
-        borderBottom: '1px solid rgba(34,197,94,0.08)',
-        padding: '2.5rem 0 2rem',
+        background: 'linear-gradient(180deg, rgba(34,197,94,0.08) 0%, transparent 100%)',
+        borderBottom: '1px solid rgba(34,197,94,0.12)',
+        padding: '3rem 0 2.5rem',
         marginBottom: '2.5rem',
       }}>
         <div className="container">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '0.5rem' }}>
               <div style={{
-                width: 36,
-                height: 36,
-                borderRadius: 10,
-                background: 'rgba(34,197,94,0.12)',
-                border: '1px solid rgba(34,197,94,0.2)',
+                width: 44,
+                height: 44,
+                borderRadius: 14,
+                background: 'rgba(34,197,94,0.14)',
+                border: '1px solid rgba(34,197,94,0.25)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                boxShadow: '0 0 24px rgba(34,197,94,0.15)',
               }}>
-                <Scan size={18} color="#4ade80" />
+                <Scan size={22} color="#4ade80" />
               </div>
-              <h1 style={{ fontSize: '1.6rem', fontWeight: 800, margin: 0 }}>
+              <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 1.75rem)', fontWeight: 800, margin: 0 }}>
                 <span className="gradient-text">Deteksi Penyakit</span> Tanaman
               </h1>
             </div>
-            <p style={{ color: 'rgba(134,239,172,0.65)', fontSize: '0.9rem' }}>
+            <p style={{ color: 'rgba(134,239,172,0.75)', fontSize: '0.95rem' }}>
               Upload foto daun tanaman untuk mendeteksi penyakit secara otomatis menggunakan AI
             </p>
           </motion.div>
@@ -107,8 +108,8 @@ export default function DeteksiPage() {
         >
           {/* Kolom kiri: upload + kontrol */}
           <div>
-            <div className="glass-card" style={{ padding: '1.5rem', marginBottom: '1rem' }}>
-              <h2 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '1.25rem', color: '#f0fdf4' }}>
+            <div className="glass-card card-shine" style={{ padding: '1.75rem', marginBottom: '1.25rem' }}>
+              <h2 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '1.25rem', color: '#f0fdf4' }}>
                 Upload Gambar Daun
               </h2>
               <ImageUploader
@@ -197,10 +198,10 @@ export default function DeteksiPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="glass-card"
-                style={{ padding: '1.25rem', marginTop: '1rem' }}
+                className="glass-card card-shine"
+                style={{ padding: '1.35rem', marginTop: '1.25rem' }}
               >
-                <p style={{ fontSize: '0.8rem', fontWeight: 600, color: 'rgba(134,239,172,0.5)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>
+                <p style={{ fontSize: '0.8rem', fontWeight: 600, color: 'rgba(134,239,172,0.55)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.85rem' }}>
                   Tips Foto Terbaik
                 </p>
                 {[
@@ -222,17 +223,17 @@ export default function DeteksiPage() {
           <AnimatePresence>
             {result && (
               <motion.div
-                initial={{ opacity: 0, x: 24 }}
+                initial={{ opacity: 0, x: 28 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 24 }}
-                transition={{ duration: 0.4 }}
+                exit={{ opacity: 0, x: 28 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               >
-                <h2 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '1.25rem', color: '#f0fdf4' }}>
+                <h2 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '1.25rem', color: '#f0fdf4' }}>
                   Hasil Deteksi
                 </h2>
                 <PredictionResult result={result} />
-                <div style={{ marginTop: '1.25rem' }}>
-                  <h2 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '1.25rem', color: '#f0fdf4' }}>
+                <div style={{ marginTop: '1.5rem' }}>
+                  <h2 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '1.25rem', color: '#f0fdf4' }}>
                     Informasi Penyakit
                   </h2>
                   <DiseaseInfo info={result.disease_info} />

@@ -24,8 +24,8 @@ function Section({
 
   return (
     <div style={{
-      border: '1px solid rgba(34,197,94,0.1)',
-      borderRadius: 12,
+      border: '1px solid rgba(34,197,94,0.14)',
+      borderRadius: 14,
       overflow: 'hidden',
     }}>
       <button
@@ -80,8 +80,8 @@ export default function DiseaseInfo({ info }: DiseaseInfoProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.2 }}
     >
-      <div className="glass-card" style={{ padding: '1.5rem', marginBottom: '1rem' }}>
-        <h3 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'rgba(134,239,172,0.5)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>
+      <div className="glass-card card-shine" style={{ padding: '1.6rem', marginBottom: '1.25rem' }}>
+        <h3 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'rgba(134,239,172,0.55)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.85rem' }}>
           Tentang Penyakit
         </h3>
         <p style={{ fontSize: '0.9rem', color: 'rgba(240,253,244,0.75)', lineHeight: 1.7 }}>

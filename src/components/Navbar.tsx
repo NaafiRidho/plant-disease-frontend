@@ -30,12 +30,14 @@ export default function Navbar() {
       left: 0,
       right: 0,
       zIndex: 100,
-      transition: 'all 0.3s ease',
+      transition: 'all 0.35s ease',
       background: isScrolled
-        ? 'rgba(5, 14, 8, 0.9)'
+        ? 'rgba(3, 10, 5, 0.88)'
         : 'transparent',
-      backdropFilter: isScrolled ? 'blur(20px)' : 'none',
-      borderBottom: isScrolled ? '1px solid rgba(34,197,94,0.12)' : '1px solid transparent',
+      backdropFilter: isScrolled ? 'blur(24px)' : 'none',
+      WebkitBackdropFilter: isScrolled ? 'blur(24px)' : 'none',
+      borderBottom: isScrolled ? '1px solid rgba(34,197,94,0.15)' : '1px solid transparent',
+      boxShadow: isScrolled ? '0 4px 24px rgba(0,0,0,0.2)' : 'none',
     }}>
       <div className="container">
         <div style={{
@@ -47,16 +49,16 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{
-              width: 38,
-              height: 38,
-              borderRadius: 10,
+              width: 40,
+              height: 40,
+              borderRadius: 12,
               background: 'linear-gradient(135deg, #22c55e, #16a34a)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 4px 15px rgba(34,197,94,0.4)',
+              boxShadow: '0 4px 20px rgba(34,197,94,0.45)',
             }}>
-              <Leaf size={20} color="white" />
+              <Leaf size={21} color="white" />
             </div>
             <span style={{
               fontFamily: 'Outfit, sans-serif',

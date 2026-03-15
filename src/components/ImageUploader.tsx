@@ -64,27 +64,30 @@ export default function ImageUploader({
               {...getRootProps()}
               id="image-dropzone"
               style={{
-                border: `2px dashed ${isDragActive ? 'rgba(74,222,128,0.7)' : 'rgba(34,197,94,0.25)'}`,
-                borderRadius: 16,
+                border: `2px dashed ${isDragActive ? 'rgba(74,222,128,0.6)' : 'rgba(34,197,94,0.28)'}`,
+                borderRadius: 18,
                 padding: '3rem 2rem',
                 textAlign: 'center',
                 cursor: 'pointer',
                 background: isDragActive
-                  ? 'rgba(34,197,94,0.06)'
-                  : 'rgba(10,26,15,0.5)',
-                transition: 'all 0.25s ease',
+                  ? 'rgba(34,197,94,0.08)'
+                  : 'rgba(8,22,12,0.6)',
+                transition: 'all 0.3s ease',
                 outline: 'none',
+                boxShadow: isDragActive ? '0 0 30px rgba(34,197,94,0.12)' : '0 4px 20px rgba(0,0,0,0.15)',
               }}
               onMouseEnter={(e) => {
                 if (!isDragActive) {
-                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,197,94,0.45)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.04)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,197,94,0.5)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.06)';
+                  (e.currentTarget as HTMLElement).style.boxShadow = '0 0 24px rgba(34,197,94,0.1)';
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isDragActive) {
-                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,197,94,0.25)';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(10,26,15,0.5)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,197,94,0.28)';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(8,22,12,0.6)';
+                  (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
                 }
               }}
             >
@@ -96,15 +99,16 @@ export default function ImageUploader({
                 transition={{ duration: 0.2 }}
               >
                 <div style={{
-                  width: 72,
-                  height: 72,
+                  width: 76,
+                  height: 76,
                   borderRadius: '50%',
-                  background: 'rgba(34,197,94,0.1)',
-                  border: '1px solid rgba(34,197,94,0.2)',
+                  background: 'rgba(34,197,94,0.12)',
+                  border: '1px solid rgba(34,197,94,0.25)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   margin: '0 auto 1.25rem',
+                  boxShadow: '0 0 30px rgba(34,197,94,0.1)',
                 }}>
                   {isDragActive
                     ? <Upload size={32} color="#4ade80" />

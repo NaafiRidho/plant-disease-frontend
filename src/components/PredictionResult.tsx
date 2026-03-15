@@ -51,7 +51,7 @@ export default function PredictionResult({ result }: PredictionResultProps) {
       )}
 
       {/* Main result card */}
-      <div className="glass-card" style={{ padding: '1.5rem', marginBottom: '1rem' }}>
+      <div className="glass-card card-shine" style={{ padding: '1.75rem', marginBottom: '1.25rem' }}>
         {/* Status header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1.25rem' }}>
           <div style={{
@@ -134,7 +134,7 @@ export default function PredictionResult({ result }: PredictionResultProps) {
       </div>
 
       {/* Top 3 prediksi */}
-      <div className="glass-card" style={{ padding: '1.25rem' }}>
+      <div className="glass-card card-shine" style={{ padding: '1.5rem' }}>
         <h4 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'rgba(134,239,172,0.6)', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
           Top 3 Prediksi
         </h4>

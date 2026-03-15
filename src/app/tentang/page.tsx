@@ -32,22 +32,22 @@ export default function TentangPage() {
     <div style={{ minHeight: '100vh', paddingTop: '88px', paddingBottom: '4rem' }}>
       {/* Header */}
       <div style={{
-        background: 'linear-gradient(180deg, rgba(34,197,94,0.06) 0%, transparent 100%)',
-        borderBottom: '1px solid rgba(34,197,94,0.08)',
-        padding: '2.5rem 0 2rem',
+        background: 'linear-gradient(180deg, rgba(34,197,94,0.08) 0%, transparent 100%)',
+        borderBottom: '1px solid rgba(34,197,94,0.12)',
+        padding: '3rem 0 2.5rem',
         marginBottom: '2.5rem',
       }}>
         <div className="container">
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '0.5rem' }}>
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <HelpCircle size={18} color="#4ade80" />
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '0.5rem' }}>
+              <div style={{ width: 44, height: 44, borderRadius: 14, background: 'rgba(34,197,94,0.14)', border: '1px solid rgba(34,197,94,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 24px rgba(34,197,94,0.12)' }}>
+                <HelpCircle size={22} color="#4ade80" />
               </div>
-              <h1 style={{ fontSize: '1.6rem', fontWeight: 800, margin: 0 }}>
+              <h1 style={{ fontSize: 'clamp(1.5rem, 3vw, 1.75rem)', fontWeight: 800, margin: 0 }}>
                 <span className="gradient-text">Tentang</span> Sistem
               </h1>
             </div>
-            <p style={{ color: 'rgba(134,239,172,0.65)', fontSize: '0.9rem' }}>
+            <p style={{ color: 'rgba(134,239,172,0.75)', fontSize: '0.95rem' }}>
               Informasi sistem, dataset, dan semua penyakit yang dapat dideteksi
             </p>
           </motion.div>
@@ -60,7 +60,7 @@ export default function TentangPage() {
           {/* Kolom kiri */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             {/* Tentang sistem */}
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card" style={{ padding: '1.5rem' }}>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="glass-card card-shine" style={{ padding: '1.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem' }}>
                 <Brain size={20} color="#4ade80" />
                 <h2 style={{ fontWeight: 700, fontSize: '1rem', margin: 0 }}>Tentang Sistem</h2>
@@ -103,7 +103,7 @@ export default function TentangPage() {
             </motion.div>
 
             {/* Tech stack */}
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card" style={{ padding: '1.5rem' }}>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, ease: [0.22, 1, 0.36, 1] }} className="glass-card card-shine" style={{ padding: '1.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem' }}>
                 <Code2 size={20} color="#f472b6" />
                 <h2 style={{ fontWeight: 700, fontSize: '1rem', margin: 0 }}>Teknologi yang Digunakan</h2>
@@ -207,16 +207,16 @@ export default function TentangPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.04 }}
                 style={{
-                  padding: '1rem 1.125rem',
-                  borderRadius: 12,
-                  background: 'rgba(10,26,15,0.6)',
-                  border: '1px solid rgba(34,197,94,0.1)',
+                  padding: '1.1rem 1.25rem',
+                  borderRadius: 14,
+                  background: 'rgba(10,26,15,0.65)',
+                  border: '1px solid rgba(34,197,94,0.14)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px',
-                  transition: 'border-color 0.2s, transform 0.2s',
+                  transition: 'border-color 0.25s, transform 0.25s, box-shadow 0.25s',
                 }}
-                whileHover={{ scale: 1.01, borderColor: 'rgba(34,197,94,0.25)' }}
+                whileHover={{ scale: 1.02, borderColor: 'rgba(34,197,94,0.3)', boxShadow: '0 4px 20px rgba(0,0,0,0.2)' }}
               >
                 <div style={{
                   width: 8,
