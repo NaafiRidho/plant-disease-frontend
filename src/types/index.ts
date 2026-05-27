@@ -59,3 +59,22 @@ export interface HealthResponse {
 
 // Status upload gambar
 export type UploadStatus = "idle" | "uploading" | "success" | "error";
+
+// Tipe data Autentikasi Pengguna
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  role?: string;
+  is_active?: boolean;
+  created_at?: string;
+}
+
+export interface AuthResponse {
+  message: string;
+  status: number;
+  access_token?: string;
+  refresh_token?: string;
+  user?: User;
+}
+
