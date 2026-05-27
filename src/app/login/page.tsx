@@ -1,15 +1,21 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Leaf, Lock, User, ArrowRight, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
+import { Leaf, Lock, User, ArrowRight, Eye, EyeOff, AlertCircle, CheckCircle, ScanLine } from 'lucide-react';
 import { useAuth } from '@/components/AuthContext';
 
-export default function LoginPage() {
+function LoginPageInner() {
   const { user, login } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Ambil returnUrl dari query string, default ke /deteksi
+  const returnUrl = searchParams.get('returnUrl') || '/deteksi';
+  // Jika kembali ke halaman deteksi, tambahkan flag rescan
+  const redirectAfterLogin = returnUrl.startsWith('/deteksi') ? '/deteksi?rescan=1' : returnUrl;
 
   const [usernameOrEmail, setUsernameOrEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,12 +25,15 @@ export default function LoginPage() {
   const [successMsg, setSuccessMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Jika sudah login, arahkan ke halaman utama / deteksi
+  // Apakah user datang dari halaman deteksi (ada gambar pending)
+  const hasPendingImage = typeof window !== 'undefined' && !!sessionStorage.getItem('pendingImage');
+
+  // Jika sudah login, arahkan sesuai returnUrl
   useEffect(() => {
     if (user) {
-      router.push('/deteksi');
+      router.push(redirectAfterLogin);
     }
-  }, [user, router]);
+  }, [user, router, redirectAfterLogin]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,10 +53,14 @@ export default function LoginPage() {
 
     try {
       const response = await login(usernameOrEmail.trim(), password);
-      setSuccessMsg(response.message || 'Login berhasil! Mengalihkan...');
+      setSuccessMsg(
+        hasPendingImage
+          ? 'Login berhasil! Melanjutkan deteksi gambar Anda...'
+          : (response.message || 'Login berhasil! Mengalihkan...')
+      );
       setTimeout(() => {
-        router.push('/deteksi');
-      }, 1500);
+        router.push(redirectAfterLogin);
+      }, 1000);
     } catch (err: any) {
       setErrorMsg(err.message || 'Gagal masuk. Periksa kembali username dan password Anda.');
     } finally {
@@ -127,6 +140,29 @@ export default function LoginPage() {
             Masukkan akun PlantScan AI Anda untuk mendiagnosis tanaman
           </p>
         </div>
+
+        {/* Banner: ada gambar pending dari sesi sebelumnya */}
+        {hasPendingImage && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '12px 14px',
+              marginBottom: '1.25rem',
+              borderRadius: 10,
+              background: 'rgba(34,197,94,0.1)',
+              border: '1px solid rgba(34,197,94,0.3)',
+              fontSize: '0.82rem',
+              color: '#4ade80',
+            }}
+          >
+            <ScanLine size={15} style={{ flexShrink: 0 }} />
+            <span>Gambar deteksi Anda tersimpan. Login untuk langsung melihat hasil lengkap!</span>
+          </motion.div>
+        )}
 
         {/* Notifikasi Alert */}
         <AnimatePresence mode="wait">
@@ -383,5 +419,14 @@ export default function LoginPage() {
         }
       `}</style>
     </div>
+  );
+}
+
+// Wrap dengan Suspense karena useSearchParams() butuh Suspense boundary di Next.js App Router
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ color: '#4ade80' }}>Memuat...</span></div>}>
+      <LoginPageInner />
+    </Suspense>
   );
 }
