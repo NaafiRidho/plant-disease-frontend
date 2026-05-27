@@ -30,6 +30,8 @@ export interface PredictionResponse {
   inference_time_ms: number;
   model_mode: "real" | "mock";
   mock_message?: string;
+  detection_id?: number;        // Ada jika user login dan deteksi tersimpan ke DB
+  log_warning?: string;         // Ada jika DB error tapi prediksi tetap berhasil
 }
 
 // Tipe untuk daftar kelas

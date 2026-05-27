@@ -1,14 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { CheckCircle, AlertTriangle, Clock, Cpu } from 'lucide-react';
+import { CheckCircle, AlertTriangle, Clock, Cpu, Lock, LogIn } from 'lucide-react';
 import { PredictionResponse } from '@/types';
+import Link from 'next/link';
 
 interface PredictionResultProps {
   result: PredictionResponse;
+  isAuthenticated?: boolean;
 }
 
-export default function PredictionResult({ result }: PredictionResultProps) {
+export default function PredictionResult({ result, isAuthenticated = true }: PredictionResultProps) {
   const { disease_info, top_3, confidence_percent, inference_time_ms, model_mode } = result;
   const isHealthy = disease_info.status === 'Sehat';
 
@@ -134,70 +136,139 @@ export default function PredictionResult({ result }: PredictionResultProps) {
       </div>
 
       {/* Top 3 prediksi */}
-      <div className="glass-card card-shine" style={{ padding: '1.5rem' }}>
-        <h4 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'rgba(134,239,172,0.6)', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-          Top 3 Prediksi
-        </h4>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {top_3.map((item, index) => (
-            <motion.div
-              key={item.class}
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.15 * index + 0.3 }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      {isAuthenticated ? (
+        // ── User login: tampilkan top 3 lengkap ────────────────────────────
+        <div className="glass-card card-shine" style={{ padding: '1.5rem' }}>
+          <h4 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'rgba(134,239,172,0.6)', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            Top 3 Prediksi
+          </h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {top_3.map((item, index) => (
+              <motion.div
+                key={item.class}
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.15 * index + 0.3 }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{
+                      width: 22,
+                      height: 22,
+                      borderRadius: '50%',
+                      background: index === 0 ? 'rgba(34,197,94,0.2)' : 'rgba(255,255,255,0.05)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '0.7rem',
+                      fontWeight: 700,
+                      color: index === 0 ? '#4ade80' : 'rgba(134,239,172,0.4)',
+                      flexShrink: 0,
+                    }}>
+                      {index + 1}
+                    </span>
+                    <span style={{
+                      fontSize: '0.875rem',
+                      fontWeight: index === 0 ? 600 : 400,
+                      color: index === 0 ? '#f0fdf4' : 'rgba(240,253,244,0.55)',
+                    }}>
+                      {item.name_id}
+                    </span>
+                  </div>
                   <span style={{
-                    width: 22,
-                    height: 22,
-                    borderRadius: '50%',
-                    background: index === 0 ? 'rgba(34,197,94,0.2)' : 'rgba(255,255,255,0.05)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.7rem',
+                    fontSize: '0.85rem',
                     fontWeight: 700,
-                    color: index === 0 ? '#4ade80' : 'rgba(134,239,172,0.4)',
-                    flexShrink: 0,
+                    color: index === 0 ? item.color : 'rgba(134,239,172,0.4)',
+                    minWidth: '45px',
+                    textAlign: 'right',
                   }}>
-                    {index + 1}
-                  </span>
-                  <span style={{
-                    fontSize: '0.875rem',
-                    fontWeight: index === 0 ? 600 : 400,
-                    color: index === 0 ? '#f0fdf4' : 'rgba(240,253,244,0.55)',
-                  }}>
-                    {item.name_id}
+                    {item.confidence_percent.toFixed(1)}%
                   </span>
                 </div>
-                <span style={{
-                  fontSize: '0.85rem',
-                  fontWeight: 700,
-                  color: index === 0 ? item.color : 'rgba(134,239,172,0.4)',
-                  minWidth: '45px',
-                  textAlign: 'right',
-                }}>
-                  {item.confidence_percent.toFixed(1)}%
-                </span>
-              </div>
-              <div className="confidence-bar-track" style={{ height: index === 0 ? 7 : 4 }}>
-                <motion.div
-                  className="confidence-bar-fill"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${item.confidence_percent}%` }}
-                  transition={{ duration: 1, delay: 0.2 * index + 0.5, ease: 'easeOut' }}
-                  style={{
-                    background: index === 0
-                      ? `linear-gradient(90deg, ${item.color}88, ${item.color})`
-                      : 'rgba(134,239,172,0.2)',
-                  }}
-                />
-              </div>
-            </motion.div>
-          ))}
+                <div className="confidence-bar-track" style={{ height: index === 0 ? 7 : 4 }}>
+                  <motion.div
+                    className="confidence-bar-fill"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${item.confidence_percent}%` }}
+                    transition={{ duration: 1, delay: 0.2 * index + 0.5, ease: 'easeOut' }}
+                    style={{
+                      background: index === 0
+                        ? `linear-gradient(90deg, ${item.color}88, ${item.color})`
+                        : 'rgba(134,239,172,0.2)',
+                    }}
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        // ── Guest: Top 3 terkunci ────────────────────────────────────────────
+        <div className="glass-card" style={{ padding: '1.5rem', position: 'relative', overflow: 'hidden' }}>
+          {/* Konten blur di belakang */}
+          <div style={{ filter: 'blur(5px)', pointerEvents: 'none', userSelect: 'none', opacity: 0.35 }}>
+            <h4 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'rgba(134,239,172,0.6)', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              Top 3 Prediksi
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {[70, 20, 10].map((val, i) => (
+                <div key={i}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
+                    <div style={{ width: 120, height: 14, borderRadius: 7, background: 'rgba(134,239,172,0.2)' }} />
+                    <div style={{ width: 40, height: 14, borderRadius: 7, background: 'rgba(134,239,172,0.2)' }} />
+                  </div>
+                  <div className="confidence-bar-track" style={{ height: i === 0 ? 7 : 4 }}>
+                    <div className="confidence-bar-fill" style={{ width: `${val}%`, background: 'rgba(134,239,172,0.3)' }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Overlay kunci */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'rgba(3,10,5,0.7)',
+            backdropFilter: 'blur(2px)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px',
+            borderRadius: 14,
+          }}>
+            <div style={{
+              width: 40,
+              height: 40,
+              borderRadius: '50%',
+              background: 'rgba(34,197,94,0.15)',
+              border: '1px solid rgba(34,197,94,0.35)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <Lock size={18} color="#4ade80" />
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#f0fdf4', marginBottom: '2px' }}>
+                Analisis Lengkap Terkunci
+              </p>
+              <p style={{ fontSize: '0.75rem', color: 'rgba(134,239,172,0.6)' }}>
+                Login untuk melihat top 3 prediksi
+              </p>
+            </div>
+            <Link
+              href="/login?returnUrl=/deteksi"
+              className="btn-primary"
+              style={{ padding: '7px 16px', fontSize: '0.8rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
+            >
+              <LogIn size={13} />
+              Login
+            </Link>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }
