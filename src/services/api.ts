@@ -89,10 +89,13 @@ export async function apiRegister(username: string, email: string, password: str
 
 /**
  * Login pengguna
+ * Mengirim field 'username' DAN 'email' dengan nilai yang sama agar backend
+ * bisa mencocokkan berdasarkan keduanya (backend: data.get('username') or data.get('email'))
  */
 export async function apiLogin(usernameOrEmail: string, password: string): Promise<AuthResponse> {
   const response = await api.post<AuthResponse>('/api/auth/login', {
-    username: usernameOrEmail, // data.get('username') or data.get('email') are checked
+    username: usernameOrEmail,  // digunakan jika input adalah username
+    email: usernameOrEmail,     // digunakan jika input adalah email
     password,
   });
   return response.data;

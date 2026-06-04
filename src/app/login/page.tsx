@@ -25,8 +25,12 @@ function LoginPageInner() {
   const [successMsg, setSuccessMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Apakah user datang dari halaman deteksi (ada gambar pending)
-  const hasPendingImage = typeof window !== 'undefined' && !!sessionStorage.getItem('pendingImage');
+  // Dipindahkan ke useState + useEffect untuk menghindari SSR hydration mismatch.
+  // sessionStorage tidak tersedia di server-side rendering Next.js.
+  const [hasPendingImage, setHasPendingImage] = useState(false);
+  useEffect(() => {
+    setHasPendingImage(!!sessionStorage.getItem('pendingImage'));
+  }, []);
 
   // Jika sudah login, arahkan sesuai returnUrl
   useEffect(() => {
