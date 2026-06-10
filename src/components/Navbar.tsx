@@ -20,6 +20,22 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+  const handleLogoutClick = () => {
+    setIsDropdownOpen(false);
+    setIsMenuOpen(false);
+    setShowLogoutConfirm(true);
+  };
+
+  const confirmLogout = () => {
+    setShowLogoutConfirm(false);
+    logout();
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutConfirm(false);
+  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -57,11 +73,11 @@ export default function Navbar() {
         zIndex: 100,
         transition: 'all 0.35s ease',
         background: isScrolled
-          ? 'rgba(3, 10, 5, 0.88)'
+          ? 'rgba(2, 11, 20, 0.85)'
           : 'transparent',
         backdropFilter: isScrolled ? 'blur(24px)' : 'none',
         WebkitBackdropFilter: isScrolled ? 'blur(24px)' : 'none',
-        borderBottom: isScrolled ? '1px solid rgba(34,197,94,0.15)' : '1px solid transparent',
+        borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid transparent',
         boxShadow: isScrolled ? '0 4px 24px rgba(0,0,0,0.2)' : 'none',
       }}>
         <div className="container">
@@ -102,7 +118,7 @@ export default function Navbar() {
 
             {/* Desktop Nav */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }} className="desktop-nav">
-              {navLinks.map((link) => {
+              {navLinks.filter(link => link.href !== '/dashboard' || user).map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link key={link.href} href={link.href} style={{
@@ -183,9 +199,9 @@ export default function Navbar() {
                         top: '46px',
                         right: 0,
                         width: '230px',
-                        background: 'linear-gradient(145deg, rgba(10, 26, 15, 0.96), rgba(5, 14, 8, 0.99))',
+                        background: 'linear-gradient(145deg, rgba(10, 25, 41, 0.96), rgba(3, 14, 26, 0.99))',
                         backdropFilter: 'blur(20px)',
-                        border: '1px solid rgba(34, 197, 94, 0.25)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
                         borderRadius: 'var(--radius-md)',
                         boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), var(--glow-green-soft)',
                         padding: '8px',
@@ -206,7 +222,7 @@ export default function Navbar() {
                           <div style={{ height: '1px', background: 'rgba(34, 197, 94, 0.15)', margin: '4px 0' }} />
                           
                           {/* Navigasi Ke Profil */}
-                          <Link href="/profile" style={{
+                          <Link href="/editprofile" style={{
                             padding: '8px 12px',
                             borderRadius: '8px',
                             fontSize: '0.85rem',
@@ -240,7 +256,7 @@ export default function Navbar() {
 
                           {/* Tombol Logout */}
                           <button
-                            onClick={logout}
+                            onClick={handleLogoutClick}
                             style={{
                               padding: '8px 12px',
                               borderRadius: '8px',
@@ -353,14 +369,14 @@ export default function Navbar() {
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
               style={{
-                background: 'rgba(5, 14, 8, 0.98)',
+                background: 'rgba(2, 11, 20, 0.98)',
                 backdropFilter: 'blur(20px)',
-                borderTop: '1px solid rgba(34,197,94,0.12)',
+                borderTop: '1px solid rgba(255, 255, 255, 0.08)',
                 overflow: 'hidden',
               }}
             >
               <div className="container" style={{ padding: '1rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                {navLinks.map((link) => (
+                {navLinks.filter(link => link.href !== '/dashboard' || user).map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
@@ -406,7 +422,7 @@ export default function Navbar() {
                       </div>
                       <div>
                         {/* Nama & link profile untuk versi mobile */}
-                        <Link href="/profile" onClick={() => setIsMenuOpen(false)} style={{ textDecoration: 'none' }}>
+                        <Link href="/editprofile" onClick={() => setIsMenuOpen(false)} style={{ textDecoration: 'none' }}>
                           <div style={{ fontSize: '0.9rem', color: '#f0fdf4', fontWeight: 600 }}>{user.username}</div>
                           <div style={{ fontSize: '0.75rem', color: 'rgba(134, 239, 172, 0.6)' }}>Lihat Profil &rarr;</div>
                         </Link>
@@ -498,6 +514,90 @@ export default function Navbar() {
           }
         `}</style>
       </nav>
+
+      <AnimatePresence>
+        {showLogoutConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'fixed',
+              top: 0, left: 0, right: 0, bottom: 0,
+              backgroundColor: 'rgba(2, 11, 20, 0.8)',
+              backdropFilter: 'blur(8px)',
+              zIndex: 100000,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              style={{
+                background: 'linear-gradient(180deg, rgba(6, 26, 48, 0.95) 0%, rgba(2, 11, 20, 0.98) 100%)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                borderRadius: '24px',
+                padding: '32px',
+                width: '100%',
+                maxWidth: '400px',
+                textAlign: 'center',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+              }}
+            >
+              <div style={{
+                width: 64, height: 64, borderRadius: '50%', background: 'rgba(239, 68, 68, 0.1)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px',
+                border: '1px solid rgba(239, 68, 68, 0.2)'
+              }}>
+                <LogOut size={32} color="#ef4444" />
+              </div>
+              <h3 style={{ color: '#ffffff', fontSize: '1.25rem', marginBottom: '16px', fontWeight: 700 }}>Konfirmasi Keluar</h3>
+              <p style={{ color: 'rgba(240, 253, 244, 0.7)', fontSize: '0.95rem', marginBottom: '24px', lineHeight: 1.5 }}>
+                Apakah Anda yakin ingin keluar dari akun ini? Sesi Anda akan diakhiri.
+              </p>
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+                <button
+                  onClick={cancelLogout}
+                  style={{
+                    padding: '12px 24px',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    color: '#ffffff',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    flex: 1
+                  }}
+                  className="dropdown-item-hover"
+                >
+                  Batal
+                </button>
+                <button
+                  onClick={confirmLogout}
+                  style={{
+                    padding: '12px 24px',
+                    borderRadius: '12px',
+                    border: 'none',
+                    background: '#ef4444',
+                    color: '#ffffff',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
+                    flex: 1
+                  }}
+                >
+                  Ya, Keluar
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

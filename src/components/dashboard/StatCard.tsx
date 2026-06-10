@@ -79,12 +79,19 @@ export function StatsRow({ stats }: { stats: DashboardStats }) {
         index={0}
       />
       <StatCard
+        label="Healthy Scans"
+        value={stats.healthyScans}
+        variant="green"
+        icon="health"
+        index={1}
+      />
+      <StatCard
         label="Alerts"
         value={stats.alerts}
         sub={stats.criticalAlerts > 0 ? 'CRITICAL' : undefined}
         variant="orange"
         icon="alert"
-        index={1}
+        index={2}
       />
       <StatCard
         label="Health Index"
@@ -92,7 +99,7 @@ export function StatsRow({ stats }: { stats: DashboardStats }) {
         suffix="%"
         variant="green"
         icon="health"
-        index={2}
+        index={3}
       />
     </div>
   );

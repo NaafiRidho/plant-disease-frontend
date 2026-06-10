@@ -10,7 +10,7 @@ import { PlantClass, HealthResponse } from '@/types';
 // Mengimpor aset gambar tomat dari folder yang sama
 import gambarTomat from './tomat.png';
 
-export default function TentangPage() {
+export default function TomatPage() {
   const [classes, setClasses] = useState<PlantClass[]>([]);
   const [health, setHealth] = useState<HealthResponse | null>(null);
 

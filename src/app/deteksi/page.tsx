@@ -149,11 +149,11 @@ function DeteksiPageInner() {
   const isAuthenticated = !!user;
 
   return (
-    <div style={{ minHeight: '100vh', paddingTop: '88px', paddingBottom: '4rem' }}>
+    <div style={{ backgroundColor: '#020b14', color: '#f0fdf4', minHeight: '100vh', paddingTop: '88px', paddingBottom: '4rem', fontFamily: 'sans-serif' }}>
       {/* Page header */}
       <div style={{
-        background: 'linear-gradient(180deg, rgba(34,197,94,0.08) 0%, transparent 100%)',
-        borderBottom: '1px solid rgba(34,197,94,0.12)',
+        background: 'linear-gradient(180deg, rgba(34,197,94,0.05) 0%, transparent 100%)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
         padding: '3rem 0 2.5rem',
         marginBottom: '2.5rem',
       }}>

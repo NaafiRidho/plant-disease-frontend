@@ -14,7 +14,7 @@ import imgPaprika from './bellpepper.png';
 import imgKentang from './potato.png';
 import imgTomat from './tomato.png';
 
-export default function TentangPage() {
+export default function SpesiesTanamanPage() {
   const [classes, setClasses] = useState<PlantClass[]>([]);
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>('Semua');

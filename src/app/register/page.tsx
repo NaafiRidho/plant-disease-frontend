@@ -113,8 +113,8 @@ export default function RegisterPage() {
           width: '100%',
           maxWidth: '480px',
           padding: '2.5rem 2.25rem',
-          background: 'linear-gradient(145deg, rgba(12, 28, 18, 0.85), rgba(7, 16, 10, 0.95))',
-          border: '1px solid rgba(34, 197, 94, 0.22)',
+          background: 'linear-gradient(145deg, rgba(10, 25, 41, 0.85), rgba(3, 14, 26, 0.95))',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
           boxShadow: '0 20px 50px rgba(0, 0, 0, 0.4), var(--glow-green-soft)',
         }}
       >
@@ -240,8 +240,8 @@ export default function RegisterPage() {
                 style={{
                   width: '100%',
                   padding: '0.8rem 1rem 0.8rem 2.65rem',
-                  background: 'rgba(3, 10, 5, 0.65)',
-                  border: '1px solid rgba(34, 197, 94, 0.16)',
+                  background: 'rgba(3, 14, 26, 0.65)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
                   borderRadius: 'var(--radius-md)',
                   color: 'white',
                   fontSize: '0.9rem',
@@ -287,8 +287,8 @@ export default function RegisterPage() {
                 style={{
                   width: '100%',
                   padding: '0.8rem 1rem 0.8rem 2.65rem',
-                  background: 'rgba(3, 10, 5, 0.65)',
-                  border: '1px solid rgba(34, 197, 94, 0.16)',
+                  background: 'rgba(3, 14, 26, 0.65)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
                   borderRadius: 'var(--radius-md)',
                   color: 'white',
                   fontSize: '0.9rem',
@@ -334,8 +334,8 @@ export default function RegisterPage() {
                 style={{
                   width: '100%',
                   padding: '0.8rem 2.65rem 0.8rem 2.65rem',
-                  background: 'rgba(3, 10, 5, 0.65)',
-                  border: '1px solid rgba(34, 197, 94, 0.16)',
+                  background: 'rgba(3, 14, 26, 0.65)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
                   borderRadius: 'var(--radius-md)',
                   color: 'white',
                   fontSize: '0.9rem',
@@ -400,8 +400,8 @@ export default function RegisterPage() {
                 style={{
                   width: '100%',
                   padding: '0.8rem 2.65rem 0.8rem 2.65rem',
-                  background: 'rgba(3, 10, 5, 0.65)',
-                  border: '1px solid rgba(34, 197, 94, 0.16)',
+                  background: 'rgba(3, 14, 26, 0.65)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
                   borderRadius: 'var(--radius-md)',
                   color: 'white',
                   fontSize: '0.9rem',
@@ -493,8 +493,8 @@ export default function RegisterPage() {
       <style>{`
         .input-focus-glow:focus {
           border-color: var(--green-400) !important;
-          box-shadow: 0 0 16px rgba(34, 197, 94, 0.22), inset 0 2px 4px rgba(0,0,0,0.1) !important;
-          background: rgba(4, 15, 7, 0.8) !important;
+          box-shadow: 0 0 16px rgba(59, 130, 246, 0.15), inset 0 2px 4px rgba(0,0,0,0.1) !important;
+          background: rgba(3, 14, 26, 0.8) !important;
         }
         
         .spinner {
