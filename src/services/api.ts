@@ -180,17 +180,76 @@ const MOCK_DASHBOARD: DashboardData = {
     'Predicted biomass increase of 14.2% over the next 72 hours due to optimized nutrient injection in Zone A-04.',
 };
 
-/**
- * Fetch dashboard data. Falls back to mock data if the backend
- * endpoint is not available.
- */
 export async function getDashboardData(): Promise<DashboardData> {
-  try {
-    const response = await api.get<DashboardData>('/api/dashboard');
-    return response.data;
-  } catch {
-    // Graceful fallback to mock data when endpoint is unavailable
-    return MOCK_DASHBOARD;
-  }
+  return MOCK_DASHBOARD;
 }
+
+/**
+ * Update profil pengguna yang sedang login
+ */
+export async function apiUpdateProfile(data: {
+  username?: string;
+  email?: string;
+  fullname?: string;
+  specialization?: string;
+  location?: string;
+  bio?: string;
+  password?: string;
+  old_password?: string;
+}): Promise<AuthResponse> {
+  const response = await api.put<AuthResponse>('/api/auth/profile', data);
+  return response.data;
+}
+
+/**
+ * Hapus satu riwayat deteksi berdasarkan ID
+ */
+export async function apiDeleteHistory(id: number): Promise<{ success: boolean; message: string }> {
+  const response = await api.delete<{ success: boolean; message: string }>(`/api/detection-histories/${id}`);
+  return response.data;
+}
+
+/**
+ * Ambil daftar riwayat deteksi milik user (paginated)
+ */
+export async function apiGetHistories(params: {
+  page?: number;
+  per_page?: number;
+  search?: string;
+  plant_type?: string;
+  is_healthy?: string;
+  date_from?: string;
+  date_to?: string;
+  sort_by?: string;
+  order?: string;
+}) {
+  const response = await api.get('/api/detection-histories', { params });
+  return response.data;
+}
+
+/**
+ * Ambil statistik riwayat deteksi
+ */
+export async function apiGetHistoryStats() {
+  const response = await api.get('/api/detection-histories/stats');
+  return response.data;
+}
+
+/**
+ * Ambil tren riwayat deteksi
+ */
+export async function apiGetHistoryTrend(period: string = 'monthly') {
+  const response = await api.get('/api/detection-histories/trend', { params: { period } });
+  return response.data;
+}
+
+/**
+ * Ambil detail satu riwayat deteksi berdasarkan ID
+ */
+export async function apiGetHistoryDetail(id: number) {
+  const response = await api.get(`/api/detection-histories/${id}`);
+  return response.data;
+}
+
+
 

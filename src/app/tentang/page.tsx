@@ -29,11 +29,11 @@ export default function TentangPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', paddingTop: '88px', paddingBottom: '4rem' }}>
+    <div style={{ backgroundColor: '#020b14', color: '#f0fdf4', minHeight: '100vh', paddingTop: '88px', paddingBottom: '4rem', fontFamily: 'sans-serif' }}>
       {/* Header */}
       <div style={{
-        background: 'linear-gradient(180deg, rgba(34,197,94,0.08) 0%, transparent 100%)',
-        borderBottom: '1px solid rgba(34,197,94,0.12)',
+        background: 'linear-gradient(180deg, rgba(34,197,94,0.05) 0%, transparent 100%)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
         padding: '3rem 0 2.5rem',
         marginBottom: '2.5rem',
       }}>
@@ -209,8 +209,8 @@ export default function TentangPage() {
                 style={{
                   padding: '1.1rem 1.25rem',
                   borderRadius: 14,
-                  background: 'rgba(10,26,15,0.65)',
-                  border: '1px solid rgba(34,197,94,0.14)',
+                  background: 'rgba(10, 25, 41, 0.65)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px',

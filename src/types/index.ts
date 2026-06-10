@@ -83,6 +83,7 @@ export interface AuthResponse {
 // ─── Dashboard Types ─────────────────────────────────────────
 export interface DashboardStats {
   totalScans: number;
+  healthyScans: number;
   alerts: number;
   criticalAlerts: number;
   healthIndex: number;
