@@ -80,3 +80,52 @@ export interface AuthResponse {
   user?: User;
 }
 
+// ─── Dashboard Types ─────────────────────────────────────────
+export interface DashboardStats {
+  totalScans: number;
+  alerts: number;
+  criticalAlerts: number;
+  healthIndex: number;
+}
+
+export type ScanStatus = 'healthy' | 'alert' | 'system';
+
+export interface ScanHistoryItem {
+  id: number;
+  name: string;
+  status: ScanStatus;
+  statusLabel: string;
+  description: string;
+  timeAgo: string;
+  emoji: string;
+  thumbBg: string;
+}
+
+export interface EnvironmentalData {
+  humidity: number;
+  temperature: number;
+  co2: number;
+  vpd: number;
+}
+
+export interface GrowthDataPoint {
+  week: string;
+  value: number;
+}
+
+export interface MonitorData {
+  zone: string;
+  plantName: string;
+  photosynthesisRate: number;
+  stomataStatus: string;
+}
+
+export interface DashboardData {
+  stats: DashboardStats;
+  scans: ScanHistoryItem[];
+  environmentals: EnvironmentalData;
+  growthData: GrowthDataPoint[];
+  monitor: MonitorData;
+  insightQuote: string;
+}
+
