@@ -203,7 +203,7 @@ export default function Navbar() {
                         backdropFilter: 'blur(20px)',
                         border: '1px solid rgba(255, 255, 255, 0.08)',
                         borderRadius: 'var(--radius-md)',
-                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), var(--glow-green-soft)',
+                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), var(--green-glow-soft)',
                         padding: '8px',
                         display: 'flex',
                         flexDirection: 'column',
@@ -430,10 +430,7 @@ export default function Navbar() {
                     </div>
                     
                     <button
-                      onClick={() => {
-                        logout();
-                        setIsMenuOpen(false);
-                      }}
+                      onClick={handleLogoutClick}
                       className="btn-secondary"
                       style={{
                         justifyContent: 'center',

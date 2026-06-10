@@ -38,6 +38,8 @@ export interface PredictionResponse {
 export interface PlantClass {
   class_key: string;
   name_id: string;
+  scientific_name?: string;
+  description?: string;
   plant: string;
   status: string;
   severity: string;

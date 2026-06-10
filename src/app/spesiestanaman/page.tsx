@@ -156,6 +156,7 @@ export default function SpesiesTanamanPage() {
                 <Image 
                   src={spesies.gambar}
                   alt={`Visualisasi data ${spesies.nama}`}
+                  unoptimized
                   style={{
                     width: 'auto',
                     height: '85%',

@@ -31,8 +31,11 @@ function LoginPageInner() {
     setSuccessMsg('');
   };
 
-  // Apakah user datang dari halaman deteksi (ada gambar pending)
-  const hasPendingImage = typeof window !== 'undefined' && !!sessionStorage.getItem('pendingImage');
+  const [hasPendingImage, setHasPendingImage] = useState(false);
+
+  useEffect(() => {
+    setHasPendingImage(!!sessionStorage.getItem('pendingImage'));
+  }, []);
 
   // Jika sudah login, arahkan sesuai returnUrl
   useEffect(() => {
@@ -108,7 +111,7 @@ function LoginPageInner() {
           padding: '2.5rem 2.25rem',
           background: 'linear-gradient(145deg, rgba(10, 25, 41, 0.85), rgba(3, 14, 26, 0.95))',
           border: '1px solid rgba(255, 255, 255, 0.08)',
-          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.4), var(--glow-green-soft)',
+          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.4), var(--green-glow-soft)',
         }}
       >
         {/* Header Form */}
@@ -407,7 +410,7 @@ function LoginPageInner() {
       <style>{`
         .input-focus-glow:focus {
           border-color: var(--green-400) !important;
-          box-shadow: 0 0 16px rgba(59, 130, 246, 0.15), inset 0 2px 4px rgba(0,0,0,0.1) !important;
+          box-shadow: 0 0 16px rgba(34, 197, 94, 0.15), inset 0 2px 4px rgba(0,0,0,0.1) !important;
           background: rgba(3, 14, 26, 0.8) !important;
         }
         

@@ -27,6 +27,8 @@
   font-size: 13px;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .paginationContainer {
@@ -134,12 +136,16 @@
   padding: 88px 2rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .colLeft {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .colRight {
@@ -148,26 +154,15 @@
   gap: 1.5rem;
 }
 
-/* ─── RESPONSIVE ─────────────────────────────────────────── */
-@media (max-width: 1024px) {
-  .page {
-    grid-template-columns: 1fr; /* Jika layar lebih kecil, susun vertikal semua */
-  }
-}
-
-@media (max-width: 768px) {
-  .page {
-    padding: 88px 1rem 1rem;
-    gap: 1rem;
-  }
-  .statsRow {
-    flex-direction: column;
-  }
-}
+/* ─── RESPONSIVE (Handled at the bottom) ─── */
 
 
 /* ─── STAT CARDS ─────────────────────────────────────────── */
-.statsRow { display: flex; gap: 12px; }
+.statsRow { 
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 12px; 
+}
 .statCard {
   flex: 1;
   background: var(--bg-card);
@@ -400,17 +395,21 @@
 .skeletonEnv { height: 140px; border-radius: 11px; }
 
 /* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .statsRow { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 768px) {
   .page {
-    flex-direction: column;
-    padding: 12px 14px 18px;
+    padding: 88px 14px 18px;
+    gap: 1rem;
   }
   .colRight {
     width: 100%;
     min-width: 0;
   }
   .statsRow {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
   .topbar {
     padding: 8px 14px;
@@ -419,4 +418,71 @@
   .monitorCard { height: 180px; }
   .mBadgePhoto { bottom: 28px; left: 16px; }
   .mBadgeStomata { bottom: 10px; right: 16px; }
+}
+
+/* ─── RECENT SCANS GRID (MOBILE OPTIMIZED) ─── */
+.scanCardHover:hover {
+  border-color: var(--border-mid) !important;
+}
+
+.trashBtnHover:hover {
+  background-color: rgba(255, 123, 114, 0.1) !important;
+  color: #ff493c !important;
+}
+
+.scanItemGrid {
+  display: grid;
+  grid-template-columns: 80px 1.5fr 1.2fr 1.5fr 1.2fr auto;
+}
+
+@media (max-width: 1024px) {
+  .scanItemGrid {
+    grid-template-columns: 80px 1.5fr 1fr 1fr !important;
+  }
+  .scanItemGrid > div:nth-child(5) { display: none; } /* Hide status badge on tablet */
+}
+
+@media (max-width: 768px) {
+  .scanItemGrid {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 1.25rem !important;
+    position: relative;
+    padding-right: 3rem !important; /* Make room for absolute action buttons */
+  }
+  .scanItemGrid > div { margin: 0 !important; }
+  .scanItemGrid > div:nth-child(1) { 
+    /* Image */
+    width: 80px; 
+    flex-shrink: 0;
+  } 
+  .scanItemGrid > div:nth-child(2) { 
+    /* Name */
+    flex: 1; 
+    min-width: 140px;
+    display: flex;
+    justify-content: center;
+  }
+  .scanItemGrid > div:nth-child(3) { 
+    /* Date */
+    width: calc(50% - 0.75rem); 
+  }
+  .scanItemGrid > div:nth-child(4) { 
+    /* Confidence */
+    width: calc(50% - 0.75rem); 
+  }
+  .scanItemGrid > div:nth-child(5) { 
+    /* Status */
+    display: flex;
+    width: 100%; 
+    justify-content: flex-start !important;
+  }
+  .scanItemGrid > div:nth-child(6) { 
+    /* Actions */
+    position: absolute; 
+    right: 1rem; 
+    top: 1.25rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }

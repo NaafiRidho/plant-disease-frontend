@@ -131,15 +131,13 @@ export default function RecentScans({
                 border: '1px solid var(--border)',
                 borderRadius: '16px',
                 padding: '1.25rem 1.5rem',
-                display: 'grid',
-                gridTemplateColumns: '80px 1.5fr 1.2fr 1.5fr 1.2fr auto',
                 alignItems: 'center',
                 gap: '1.5rem',
                 position: 'relative',
                 transition: 'border-color 0.2s',
                 cursor: 'pointer'
               }}
-              className="scan-card-hover"
+              className={`${styles.scanCardHover} ${styles.scanItemGrid}`}
             >
               {/* Column 1: Image */}
               <div style={{ width: '80px', height: '80px', borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border)', backgroundColor: 'var(--bg-card2)' }}>
@@ -217,7 +215,7 @@ export default function RecentScans({
                       justifyContent: 'center',
                       transition: 'all 0.2s',
                     }}
-                    className="trash-btn-hover"
+                    className={styles.trashBtnHover}
                   >
                     <Trash2 size={15} />
                   </button>
@@ -237,6 +235,7 @@ export default function RecentScans({
           alignItems: 'center',
           gap: '8px',
           marginTop: '1.5rem',
+          flexWrap: 'wrap'
         }}>
           {/* Prev Button */}
           <button
@@ -310,29 +309,6 @@ export default function RecentScans({
           </button>
         </div>
       )}
-
-      <style jsx>{`
-        .scan-card-hover:hover {
-          border-color: var(--border-mid) !important;
-        }
-        .trash-btn-hover:hover {
-          background-color: rgba(255, 123, 114, 0.1) !important;
-          color: #ff493c !important;
-        }
-        @media (max-width: 900px) {
-          div[style*="gridTemplateColumns"] {
-            grid-template-columns: 80px 1fr 1fr !important;
-            gap: 1rem !important;
-          }
-        }
-        @media (max-width: 600px) {
-          div[style*="gridTemplateColumns"] {
-            grid-template-columns: 1fr !important;
-            justify-items: start !important;
-            text-align: left !important;
-          }
-        }
-      `}</style>
     </motion.div>
   );
 }

@@ -558,13 +558,13 @@ export default function HomePage() {
                   {/* veins */}
                   <line x1="140" y1="200" x2="82" y2="130" stroke="#1a4a1a" strokeWidth="2" />
                   <line x1="140" y1="200" x2="198" y2="125" stroke="#1a4a1a" strokeWidth="2" />
-                  <line x1="140" y1="200" x2="72" y2="195" stroke="#1a4a1a" stroke-width="2" />
-                  <line x1="140" y1="200" x2="208" y2="200" stroke="#1a4a1a" stroke-width="2" />
-                  <line x1="140" y1="200" x2="90" y2="255" stroke="#1a4a1a" stroke-width="1.5" />
-                  <line x1="140" y1="200" x2="190" y2="258" stroke="#1a4a1a" stroke-width="1.5" />
+                  <line x1="140" y1="200" x2="72" y2="195" stroke="#1a4a1a" strokeWidth="2" />
+                  <line x1="140" y1="200" x2="208" y2="200" stroke="#1a4a1a" strokeWidth="2" />
+                  <line x1="140" y1="200" x2="90" y2="255" stroke="#1a4a1a" strokeWidth="1.5" />
+                  <line x1="140" y1="200" x2="190" y2="258" stroke="#1a4a1a" strokeWidth="1.5" />
                   {/* sub-veins */}
-                  <line x1="140" y1="200" x2="108" y2="85" stroke="#163216" stroke-width="1.2" />
-                  <line x1="140" y1="200" x2="172" y2="80" stroke="#163216" stroke-width="1.2" />
+                  <line x1="140" y1="200" x2="108" y2="85" stroke="#163216" strokeWidth="1.2" />
+                  <line x1="140" y1="200" x2="172" y2="80" stroke="#163216" strokeWidth="1.2" />
                   {/* glow overlay */}
                   <ellipse cx="140" cy="190" rx="70" ry="80" fill="none" stroke="#4ade80" strokeWidth="0.5" strokeDasharray="4 6" opacity="0.3" />
                 </svg>
@@ -653,7 +653,7 @@ export default function HomePage() {
           <h2 className="cta-title">Mulai <span>Deteksi</span></h2>
           <p className="cta-sub">Mulai deteksi sekarang dengan mengunggah foto daun yang bermasalah. Pastikan pencahayaan cukup dan fokus.</p>
           <div className="cta-tags">
-            <div className="cta-tag"><i className="ti ti-check"></i> JPG, PNG, HEIC</div>
+            <div className="cta-tag"><i className="ti ti-check"></i> JPG, PNG, WebP</div>
             <div className="cta-tag"><i className="ti ti-check"></i> AI Processing</div>
           </div>
           <Link href="/deteksi" className="btn-primary" style={{ fontSize: '15px' }}>
@@ -672,7 +672,7 @@ export default function HomePage() {
                 <div className="dot">🌿</div>
                 Plant<span style={{ color: 'var(--green)' }}>Scan AI</span>
               </Link>
-              <p className="footer-tagline">© 2024 PlantScan AI Systems. Cultivating the digital wilderness.</p>
+              <p className="footer-tagline">© 2026 PlantScan AI Systems. Cultivating the digital wilderness.</p>
             </div>
             <div className="footer-links">
               <div className="footer-col">
@@ -688,7 +688,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2024 PlantScan AI. All rights reserved.</div>
+            <div className="footer-copy">© 2026 PlantScan AI. All rights reserved.</div>
             <div className="footer-contact">Contact Us</div>
             <div className="footer-icons">
               <Link href="#"><i className="ti ti-world"></i></Link>

@@ -3,30 +3,15 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Leaf, Database, Brain, Code2, HelpCircle } from 'lucide-react';
-import { getClasses, checkHealth } from '@/services/api';
-import { PlantClass, HealthResponse } from '@/types';
+import { checkHealth } from '@/services/api';
+import { HealthResponse } from '@/types';
 
 export default function TentangPage() {
-  const [classes, setClasses] = useState<PlantClass[]>([]);
   const [health, setHealth] = useState<HealthResponse | null>(null);
-  const [activeFilter, setActiveFilter] = useState<string>('Semua');
 
   useEffect(() => {
-    getClasses().then((data) => setClasses(data.classes)).catch(() => {});
     checkHealth().then(setHealth).catch(() => {});
   }, []);
-
-  const plants = ['Semua', 'Paprika', 'Kentang', 'Tomat'];
-  const filtered = activeFilter === 'Semua'
-    ? classes
-    : classes.filter((c) => c.plant === activeFilter);
-
-  const severityBadgeClass = (s: string) => {
-    if (s === 'Sangat Tinggi' || s === 'Tinggi') return 'badge-red';
-    if (s === 'Sedang') return 'badge-orange';
-    if (s === 'Tidak ada') return 'badge-green';
-    return 'badge-green';
-  };
 
   return (
     <div style={{ backgroundColor: '#020b14', color: '#f0fdf4', minHeight: '100vh', paddingTop: '88px', paddingBottom: '4rem', fontFamily: 'sans-serif' }}>
@@ -160,85 +145,6 @@ export default function TentangPage() {
           </div>
         </div>
 
-        {/* Daftar semua kelas penyakit */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ marginTop: '2rem' }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.25rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Leaf size={18} color="#4ade80" />
-              <h2 style={{ fontWeight: 700, fontSize: '1.1rem', margin: 0 }}>
-                Semua Penyakit yang Dapat Dideteksi ({classes.length} kelas)
-              </h2>
-            </div>
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-              {plants.map((p) => (
-                <button
-                  key={p}
-                  onClick={() => setActiveFilter(p)}
-                  style={{
-                    padding: '6px 14px',
-                    borderRadius: 100,
-                    border: '1px solid',
-                    borderColor: activeFilter === p ? 'rgba(34,197,94,0.5)' : 'rgba(34,197,94,0.12)',
-                    background: activeFilter === p ? 'rgba(34,197,94,0.12)' : 'transparent',
-                    color: activeFilter === p ? '#4ade80' : 'rgba(134,239,172,0.5)',
-                    fontSize: '0.8rem',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                  }}
-                >
-                  {p}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '0.75rem' }}>
-            {filtered.map((cls, i) => (
-              <motion.div
-                key={cls.class_key}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.04 }}
-                style={{
-                  padding: '1.1rem 1.25rem',
-                  borderRadius: 14,
-                  background: 'rgba(10, 25, 41, 0.65)',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  transition: 'border-color 0.25s, transform 0.25s, box-shadow 0.25s',
-                }}
-                whileHover={{ scale: 1.02, borderColor: 'rgba(34,197,94,0.3)', boxShadow: '0 4px 20px rgba(0,0,0,0.2)' }}
-              >
-                <div style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: '50%',
-                  background: cls.color,
-                  flexShrink: 0,
-                  boxShadow: `0 0 8px ${cls.color}66`,
-                }} />
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontWeight: 600, fontSize: '0.875rem', color: '#f0fdf4', marginBottom: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {cls.name_id}
-                  </p>
-                  <p style={{ fontSize: '0.75rem', color: 'rgba(134,239,172,0.4)' }}>{cls.plant}</p>
-                </div>
-                <span className={`badge ${severityBadgeClass(cls.severity)}`} style={{ fontSize: '0.65rem', flexShrink: 0 }}>
-                  {cls.status}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
 
       <style>{`

@@ -24,12 +24,12 @@ export default function TomatPage() {
       
       {/* HEADER UTAMA DASBOR */}
       <div className="container" style={{ marginBottom: '2.5rem' }}>
-        <div style={{ position: 'relative', background: 'linear-gradient(180deg, rgba(6, 26, 48, 0.4) 0%, rgba(2, 11, 20, 0.9) 100%)', border: '1px solid rgba(34, 197, 94, 0.15)', borderRadius: '24px', padding: '3rem', overflow: 'hidden', display: 'flex', justifyContent: 'space-between', alignItems: 'center', minHeight: '340px' }}>
+        <div className="header-card">
           
           {/* Latar Belakang Dekoratif / Info Pendaran */}
           <div style={{ position: 'absolute', top: '10%', right: '10%', width: '300px', height: '300px', background: 'rgba(34, 197, 94, 0.05)', filter: 'blur(80px)', borderRadius: '50%', zIndex: 0 }} />
           
-          <div style={{ zIndex: 1, maxWidth: '55%' }}>
+          <div className="header-text">
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', padding: '4px 12px', borderRadius: '100px', marginBottom: '1.25rem' }}>
               <span style={{ width: 6, height: 6, backgroundColor: '#22c55e', borderRadius: '50%', boxShadow: '0 0 8px #22c55e' }}></span>
               <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#4ade80', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Premium Bio-Analysis</span>
@@ -39,13 +39,13 @@ export default function TomatPage() {
           </div>
 
           {/* Indeks Kesehatan Kanan Atas */}
-          <div style={{ position: 'absolute', top: '24px', right: '24px', backgroundColor: 'rgba(10, 25, 41, 0.6)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '12px 20px', textAlign: 'center' }}>
+          <div style={{ position: 'absolute', top: '24px', right: '24px', backgroundColor: 'rgba(10, 25, 41, 0.6)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '12px 20px', textAlign: 'center', zIndex: 10 }}>
             <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#4ade80' }}>92%</div>
             <div style={{ fontSize: '0.6rem', color: 'rgba(240,253,244,0.4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Index Kesehatan</div>
           </div>
 
           {/* FOKUS VISUAL: Menggunakan gambar tomat.png hasil generate dari asset folder */}
-          <div style={{ zIndex: 1, width: '40%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div className="header-image">
             <motion.div 
               initial={{ scale: 0.9, opacity: 0 }} 
               animate={{ scale: 1, opacity: 1 }} 
@@ -60,6 +60,7 @@ export default function TomatPage() {
                 alt="Analisis Bio-Digital Tomat"
                 style={{ width: '100%', height: '100%', objectFit: 'contain', zIndex: 1 }}
                 priority
+                unoptimized
               />
             </motion.div>
           </div>
@@ -67,7 +68,7 @@ export default function TomatPage() {
       </div>
 
       {/* SEKSI UTAMA: PROFIL BOTANI & ANALISIS AI */}
-      <div className="container" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: '2rem', marginBottom: '2rem' }}>
+      <div className="container grid-container">
         
         {/* KARTU KIRI: PROFIL BOTANI */}
         <div style={{ backgroundColor: 'rgba(6, 20, 36, 0.6)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', padding: '2.5rem' }}>
@@ -75,7 +76,7 @@ export default function TomatPage() {
             <Leaf size={20} color="#22c55e" /> Profil Botani
           </h2>
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+          <div className="info-grid">
             <div>
               <div style={{ fontSize: '0.65rem', color: 'rgba(240,253,244,0.4)', fontWeight: 700, textTransform: 'uppercase', marginBottom: '0.5rem' }}>Asal Usul</div>
               <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#f0fdf4', marginBottom: '0.25rem' }}>Pegunungan Andes, Amerika Selatan</div>
@@ -145,13 +146,13 @@ export default function TomatPage() {
       </div>
 
       {/* SEKSI BAWAH: PERPUSTAKAAN DIAGNOSTIK & REKOMENDASI AI */}
-      <div className="container" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: '2rem' }}>
+      <div className="container grid-container">
         
         {/* PERPUSTAKAAN DIAGNOSTIK */}
         <div style={{ backgroundColor: 'rgba(6, 20, 36, 0.6)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', padding: '2.5rem' }}>
           <h2 style={{ fontSize: '1.35rem', fontWeight: 700, color: '#ffffff', margin: '0 0 2rem 0' }}>Perpustakaan Diagnostik</h2>
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
+          <div className="diag-grid">
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <div style={{ width: '100%', height: '110px', backgroundColor: '#020b14', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Leaf size={32} color="#f43f5e" style={{ opacity: 0.4 }} />
@@ -218,21 +219,75 @@ export default function TomatPage() {
       </div>
 
       {/* FOOTER */}
-      <div className="container" style={{ marginTop: '5rem', paddingTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'between', fontSize: '0.75rem', color: 'rgba(240,253,244,0.3)' }}>
+      <div className="container footer-section">
         <div>&copy; 2026 PlantScan AI. Botanical Intelligence Systems.</div>
       </div>
 
+      <style jsx>{`
+        .header-card {
+          position: relative;
+          background: linear-gradient(180deg, rgba(6, 26, 48, 0.4) 0%, rgba(2, 11, 20, 0.9) 100%);
+          border: 1px solid rgba(34, 197, 94, 0.15);
+          border-radius: 24px;
+          padding: 3rem;
+          overflow: hidden;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          min-height: 340px;
+        }
+        .header-text { max-width: 55%; z-index: 1; }
+        .header-image { width: 40%; display: flex; justify-content: center; align-items: center; z-index: 1; }
+        .grid-container {
+          display: grid;
+          grid-template-columns: 1.6fr 1fr;
+          gap: 2rem;
+          margin-bottom: 2rem;
+        }
+        .info-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2rem;
+        }
+        .diag-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
+        }
+        .footer-section {
+          margin-top: 5rem;
+          padding-top: 2rem;
+          border-top: 1px solid rgba(255,255,255,0.05);
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.75rem;
+          color: rgba(240,253,244,0.3);
+        }
+
+        @media (max-width: 992px) {
+          .header-card {
+            flex-direction: column-reverse;
+            padding: 2rem;
+            text-align: center;
+            gap: 2rem;
+          }
+          .header-text { max-width: 100%; }
+          .header-image { width: 100%; }
+          .grid-container {
+            grid-template-columns: 1fr;
+          }
+        }
+        @media (max-width: 600px) {
+          .info-grid { grid-template-columns: 1fr; }
+          .diag-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
       <style jsx global>{`
         .container {
           width: 100%;
           max-width: 1200px;
-          margin-right: auto;
-          margin-left: auto;
-          padding-right: 1.5rem;
-          padding-left: 1.5rem;
-        }
-        @media (max-width: 992px) {
-          div.container { grid-template-columns: 1fr !important; }
+          margin: 0 auto;
+          padding: 0 1.5rem;
         }
       `}</style>
     </div>
