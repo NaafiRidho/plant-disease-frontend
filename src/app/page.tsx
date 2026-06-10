@@ -494,7 +494,22 @@ export default function HomePage() {
           .landing-page .features-grid { grid-template-columns: 1fr; }
           .landing-page .footer-top { flex-direction: column; }
           .landing-page .footer-links { gap: 24px; }
-          .landing-page .phone-frame { width: 230px; height: 310px; }
+          
+          .landing-page .phone-frame { width: 300px; height: 360px; border-radius: 24px; }
+          .landing-page .phone-badge-top { top: 40px; right: 20px; padding: 6px 14px; font-size: 12px; }
+          .landing-page .phone-badge-top i { font-size: 16px; }
+          
+          .landing-page .phone-status { bottom: 15px; padding: 14px 18px; width: 90%; gap: 10px; border-radius: 16px; }
+          .landing-page .status-tag { font-size: 12px; }
+          .landing-page .status-complete { font-size: 10px; }
+          .landing-page .progress-bar { height: 4px; }
+          
+          .landing-page .chip-neural { top: -10px; left: -20px; width: 90px; height: 90px; }
+          .landing-page .chip-neural .icon-wrapper { font-size: 22px; }
+          .landing-page .chip-neural .chip-text { font-size: 10px; }
+          
+          .landing-page .chip-flask { right: -20px; width: 65px; height: 65px; }
+          .landing-page .chip-flask i { font-size: 22px; }
         }
       `,
         }}
