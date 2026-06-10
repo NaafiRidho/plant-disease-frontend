@@ -132,7 +132,7 @@ export default function DashboardPage() {
     try {
       await apiDeleteHistory(deleteConfirmId);
       showToast("Riwayat berhasil dihapus", "success");
-      fetchData();
+      await fetchData();
     } catch (err: any) {
       showToast(err.message || "Gagal menghapus riwayat", "error");
     } finally {

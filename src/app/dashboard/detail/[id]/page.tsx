@@ -60,7 +60,7 @@ export default function DetailPage({ params }: PageProps) {
           <div style={{ width: '40px', height: '40px', border: `3px solid ${colors.border}`, borderTopColor: colors.primaryGreen, borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
           <span>Memuat detail diagnosa...</span>
         </div>
-        <style jsx>{`
+        <style>{`
           @keyframes spin { to { transform: rotate(360deg); } }
         `}</style>
       </div>
@@ -199,7 +199,7 @@ export default function DetailPage({ params }: PageProps) {
 
       </div>
 
-      <style jsx>{`
+      <style>{`
         @media (max-width: 900px) {
           .detail-grid {
             grid-template-columns: 1fr !important;

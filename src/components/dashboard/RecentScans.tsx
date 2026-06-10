@@ -5,8 +5,33 @@ import { useRouter } from 'next/navigation';
 import { Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from '@/app/dashboard/dashboard.module.css';
 
+// Tipe data scan item dari backend API (to_list_dict)
+interface ScanItem {
+  id: number;
+  filename?: string;
+  predicted_class: string;
+  confidence?: number;
+  confidence_percent?: string;
+  confidence_value?: number;
+  plant_type?: string;
+  scientific_name?: string;
+  disease_name?: string;
+  severity?: string;
+  is_healthy?: boolean;
+  display_status?: string;
+  status_color?: string;
+  image_url?: string;
+  user_id?: number;
+  scanned_at?: string;
+  created_at?: string;
+  // Kompatibilitas dengan mock data lama
+  name?: string;
+  status?: string;
+  timeAgo?: string;
+}
+
 interface RecentScansProps {
-  scans: any[];
+  scans: ScanItem[];
   page: number;
   totalPages: number;
   onPageChange: (page: number) => void;

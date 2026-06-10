@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PredictionResponse, ClassesResponse, HealthResponse, AuthResponse } from '@/types';
+import { PredictionResponse, ClassesResponse, HealthResponse, AuthResponse, DashboardData } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
@@ -22,12 +22,76 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Interceptor untuk error global
+// Interceptor untuk error global + auto-refresh token
+let _isRefreshing = false;
+let _failedQueue: Array<{ resolve: (token: string) => void; reject: (err: unknown) => void }> = [];
+
+function _processQueue(error: unknown, token: string | null = null) {
+  _failedQueue.forEach((prom) => {
+    if (error) prom.reject(error);
+    else prom.resolve(token!);
+  });
+  _failedQueue = [];
+}
+
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+
+    // Auto-refresh: jika 401 dan bukan dari endpoint auth sendiri
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes('/api/auth/refresh') &&
+      !originalRequest.url?.includes('/api/auth/login')
+    ) {
+      if (_isRefreshing) {
+        // Antri request yang gagal, tunggu refresh selesai
+        return new Promise<string>((resolve, reject) => {
+          _failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers['Authorization'] = `Bearer ${token}`;
+            return api(originalRequest);
+          })
+          .catch((err) => Promise.reject(err));
+      }
+
+      originalRequest._retry = true;
+      _isRefreshing = true;
+
+      const refreshToken = typeof window !== 'undefined' ? localStorage.getItem('refresh_token') : null;
+
+      if (refreshToken) {
+        try {
+          const res = await api.post('/api/auth/refresh', null, {
+            headers: { Authorization: `Bearer ${refreshToken}` },
+          });
+          const newAccessToken = res.data?.access_token;
+          if (newAccessToken) {
+            localStorage.setItem('access_token', newAccessToken);
+            api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+            originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+            _processQueue(null, newAccessToken);
+            return api(originalRequest);
+          }
+        } catch (refreshError) {
+          _processQueue(refreshError, null);
+          // Refresh gagal — hapus token dan paksa login ulang
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          if (typeof window !== 'undefined') {
+            window.location.href = '/login?session=expired';
+          }
+          return Promise.reject(refreshError);
+        } finally {
+          _isRefreshing = false;
+        }
+      }
+    }
+
     if (error.response) {
-      // Periksa apakah pesan error ada di struktur data backend (auth_routes biasanya menggunakan message atau error)
       const message = error.response.data?.message || error.response.data?.error || 'Terjadi kesalahan pada server';
       return Promise.reject(new Error(message));
     } else if (error.request) {
@@ -115,8 +179,6 @@ export async function apiLogout(): Promise<{ message: string; status: number }> 
 }
 
 // ─── Dashboard API ──────────────────────────────────────────
-
-import { DashboardData } from '@/types';
 
 /** Mock data fallback for dashboard */
 const MOCK_DASHBOARD: DashboardData = {

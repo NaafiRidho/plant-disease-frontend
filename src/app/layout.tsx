@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         <AuthProvider>
           <Navbar />
-          <main>{children}</main>
+          <div>{children}</div>
         </AuthProvider>
       </body>
     </html>
