@@ -7,10 +7,9 @@ import { Leaf, Droplets, FlaskConical, AlertTriangle, Activity } from 'lucide-re
 import { getClasses, checkHealth } from '@/services/api';
 import { PlantClass, HealthResponse } from '@/types';
 
-// Mengimpor aset gambar tomat dari folder yang sama
-import gambarTomat from './tomat.png';
+import gambarKentang from './kentang.png';
 
-export default function TomatPage() {
+export default function TentangPage() {
   const [classes, setClasses] = useState<PlantClass[]>([]);
   const [health, setHealth] = useState<HealthResponse | null>(null);
 
@@ -34,8 +33,8 @@ export default function TomatPage() {
               <span style={{ width: 6, height: 6, backgroundColor: '#22c55e', borderRadius: '50%', boxShadow: '0 0 8px #22c55e' }}></span>
               <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#4ade80', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Premium Bio-Analysis</span>
             </div>
-            <h1 style={{ fontSize: '3rem', fontWeight: 800, margin: '0 0 0.5rem 0', color: '#ffffff', letterSpacing: '-0.02em' }}>Tomat</h1>
-            <p style={{ fontSize: '1.1rem', fontStyle: 'italic', color: 'rgba(240,253,244,0.4)', margin: '0 0 1.5rem 0' }}>Solanum lycopersicum</p>
+            <h1 style={{ fontSize: '3rem', fontWeight: 800, margin: '0 0 0.5rem 0', color: '#ffffff', letterSpacing: '-0.02em' }}>Kentang</h1>
+            <p style={{ fontSize: '1.1rem', fontStyle: 'italic', color: 'rgba(240,253,244,0.4)', margin: '0 0 1.5rem 0' }}>Solanum tuberosum</p>
           </div>
 
           {/* Indeks Kesehatan Kanan Atas */}
@@ -56,8 +55,8 @@ export default function TomatPage() {
               <div style={{ position: 'absolute', width: '160px', height: '160px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(34,197,94,0.2) 0%, transparent 70%)', filter: 'blur(15px)', zIndex: 0 }} />
               
               <Image 
-                src={gambarTomat} 
-                alt="Analisis Bio-Digital Tomat"
+                src={gambarKentang} 
+                alt="Analisis Bio-Digital Kentang"
                 style={{ width: '100%', height: '100%', objectFit: 'contain', zIndex: 1 }}
                 priority
               />

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PredictionResponse, ClassesResponse, HealthResponse, AuthResponse } from '@/types';
+import { PredictionResponse, ClassesResponse, HealthResponse, AuthResponse, DashboardData } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
@@ -22,12 +22,76 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Interceptor untuk error global
+// Interceptor untuk error global + auto-refresh token
+let _isRefreshing = false;
+let _failedQueue: Array<{ resolve: (token: string) => void; reject: (err: unknown) => void }> = [];
+
+function _processQueue(error: unknown, token: string | null = null) {
+  _failedQueue.forEach((prom) => {
+    if (error) prom.reject(error);
+    else prom.resolve(token!);
+  });
+  _failedQueue = [];
+}
+
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+
+    // Auto-refresh: jika 401 dan bukan dari endpoint auth sendiri
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes('/api/auth/refresh') &&
+      !originalRequest.url?.includes('/api/auth/login')
+    ) {
+      if (_isRefreshing) {
+        // Antri request yang gagal, tunggu refresh selesai
+        return new Promise<string>((resolve, reject) => {
+          _failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers['Authorization'] = `Bearer ${token}`;
+            return api(originalRequest);
+          })
+          .catch((err) => Promise.reject(err));
+      }
+
+      originalRequest._retry = true;
+      _isRefreshing = true;
+
+      const refreshToken = typeof window !== 'undefined' ? localStorage.getItem('refresh_token') : null;
+
+      if (refreshToken) {
+        try {
+          const res = await api.post('/api/auth/refresh', null, {
+            headers: { Authorization: `Bearer ${refreshToken}` },
+          });
+          const newAccessToken = res.data?.access_token;
+          if (newAccessToken) {
+            localStorage.setItem('access_token', newAccessToken);
+            api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+            originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+            _processQueue(null, newAccessToken);
+            return api(originalRequest);
+          }
+        } catch (refreshError) {
+          _processQueue(refreshError, null);
+          // Refresh gagal — hapus token dan paksa login ulang
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          if (typeof window !== 'undefined') {
+            window.location.href = '/login?session=expired';
+          }
+          return Promise.reject(refreshError);
+        } finally {
+          _isRefreshing = false;
+        }
+      }
+    }
+
     if (error.response) {
-      // Periksa apakah pesan error ada di struktur data backend (auth_routes biasanya menggunakan message atau error)
       const message = error.response.data?.message || error.response.data?.error || 'Terjadi kesalahan pada server';
       return Promise.reject(new Error(message));
     } else if (error.request) {
@@ -119,12 +183,11 @@ export async function apiLogout(): Promise<{ message: string; status: number }> 
 
 // ─── Dashboard API ──────────────────────────────────────────
 
-import { DashboardData } from '@/types';
-
 /** Mock data fallback for dashboard */
 const MOCK_DASHBOARD: DashboardData = {
   stats: {
     totalScans: 3,
+    healthyScans: 1,
     alerts: 2,
     criticalAlerts: 2,
     healthIndex: 94,
@@ -183,17 +246,76 @@ const MOCK_DASHBOARD: DashboardData = {
     'Predicted biomass increase of 14.2% over the next 72 hours due to optimized nutrient injection in Zone A-04.',
 };
 
-/**
- * Fetch dashboard data. Falls back to mock data if the backend
- * endpoint is not available.
- */
 export async function getDashboardData(): Promise<DashboardData> {
-  try {
-    const response = await api.get<DashboardData>('/api/dashboard');
-    return response.data;
-  } catch {
-    // Graceful fallback to mock data when endpoint is unavailable
-    return MOCK_DASHBOARD;
-  }
+  return MOCK_DASHBOARD;
 }
+
+/**
+ * Update profil pengguna yang sedang login
+ */
+export async function apiUpdateProfile(data: {
+  username?: string;
+  email?: string;
+  fullname?: string;
+  specialization?: string;
+  location?: string;
+  bio?: string;
+  password?: string;
+  old_password?: string;
+}): Promise<AuthResponse> {
+  const response = await api.put<AuthResponse>('/api/auth/profile', data);
+  return response.data;
+}
+
+/**
+ * Hapus satu riwayat deteksi berdasarkan ID
+ */
+export async function apiDeleteHistory(id: number): Promise<{ success: boolean; message: string }> {
+  const response = await api.delete<{ success: boolean; message: string }>(`/api/detection-histories/${id}`);
+  return response.data;
+}
+
+/**
+ * Ambil daftar riwayat deteksi milik user (paginated)
+ */
+export async function apiGetHistories(params: {
+  page?: number;
+  per_page?: number;
+  search?: string;
+  plant_type?: string;
+  is_healthy?: string;
+  date_from?: string;
+  date_to?: string;
+  sort_by?: string;
+  order?: string;
+}) {
+  const response = await api.get('/api/detection-histories', { params });
+  return response.data;
+}
+
+/**
+ * Ambil statistik riwayat deteksi
+ */
+export async function apiGetHistoryStats() {
+  const response = await api.get('/api/detection-histories/stats');
+  return response.data;
+}
+
+/**
+ * Ambil tren riwayat deteksi
+ */
+export async function apiGetHistoryTrend(period: string = 'monthly') {
+  const response = await api.get('/api/detection-histories/trend', { params: { period } });
+  return response.data;
+}
+
+/**
+ * Ambil detail satu riwayat deteksi berdasarkan ID
+ */
+export async function apiGetHistoryDetail(id: number) {
+  const response = await api.get(`/api/detection-histories/${id}`);
+  return response.data;
+}
+
+
 

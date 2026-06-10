@@ -1,55 +1,75 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import type { GrowthDataPoint } from '@/types';
-import styles from '@/app/dashboard/dashboard.module.css';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import type { GrowthDataPoint } from "@/types";
+import styles from "@/app/dashboard/dashboard.module.css";
 
 interface InsightsChartProps {
   data: GrowthDataPoint[];
   quote: string;
+  activeTab: "week" | "month";
+  onTabChange: (tab: "week" | "month") => void;
 }
 
 /**
  * Convert data values (0-90) into SVG coordinates for a 560×90 viewBox.
  * The chart is inverted: lower Y in SVG = higher value.
  */
-function buildPath(data: GrowthDataPoint[]): { polyline: string; polygon: string; peak: { cx: number; cy: number } } {
+function buildPath(data: GrowthDataPoint[]): {
+  polyline: string;
+  polygon: string;
+  peak: { cx: number; cy: number };
+  points: { x: number; y: number; value: number }[];
+} {
   const w = 560;
   const h = 90;
+
+  if (!data || data.length === 0) {
+    return {
+      polyline: "",
+      polygon: "",
+      peak: { cx: 0, cy: 0 },
+      points: [],
+    };
+  }
+
   const step = w / Math.max(data.length - 1, 1);
+  const values = data.map((d) => d.value);
+  const maxVal = Math.max(...values, 1);
+  const minVal = Math.min(...values, 0);
+  const valRange = Math.max(maxVal - minVal, 1);
 
-  const points = data.map((d, i) => ({
-    x: i * step,
-    y: d.value, // already in SVG Y space (0=top, 90=bottom)
-  }));
+  const points = data.map((d, i) => {
+    const normalized = (d.value - minVal) / valRange;
+    const y = 70 - normalized * 45; // Maps to Y range [25, 70] to prevent overflow of text
+    return {
+      x: i * step,
+      y: y,
+      value: d.value,
+    };
+  });
 
-  const polyline = points.map(p => `${p.x},${p.y}`).join(' ');
+  const polyline = points.map((p) => `${p.x},${p.y}`).join(" ");
   const polygon = `${polyline} ${w},${h} 0,${h}`;
 
   // Find peak (lowest Y = highest point on chart)
-  const peakPoint = points.reduce((min, p) => (p.y < min.y ? p : min), points[0]);
+  const peakPoint = points.reduce(
+    (min, p) => (p.y < min.y ? p : min),
+    points[0],
+  );
   const peak = { cx: peakPoint.x, cy: peakPoint.y };
 
-  return { polyline, polygon, peak };
+  return { polyline, polygon, peak, points };
 }
 
-export default function InsightsChart({ data, quote }: InsightsChartProps) {
-  const [activeTab, setActiveTab] = useState<'week' | 'month'>('month');
-
-  // Generate slightly different data for Week view
-  const weekData: GrowthDataPoint[] = [
-    { week: 'MON', value: 60 },
-    { week: 'TUE', value: 45 },
-    { week: 'WED', value: 30 },
-    { week: 'THU', value: 55 },
-    { week: 'FRI', value: 20 },
-    { week: 'SAT', value: 48 },
-    { week: 'SUN', value: 38 },
-  ];
-
-  const currentData = activeTab === 'month' ? data : weekData;
-  const { polyline, polygon, peak } = buildPath(currentData);
+export default function InsightsChart({
+  data,
+  quote,
+  activeTab,
+  onTabChange,
+}: InsightsChartProps) {
+  const { polyline, polygon, peak, points } = buildPath(data);
 
   return (
     <motion.div
@@ -59,28 +79,47 @@ export default function InsightsChart({ data, quote }: InsightsChartProps) {
       transition={{ delay: 0.5, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className={styles.cardHeader}>
-        <div className={styles.cardTitle}>AI GROWTH INSIGHTS</div>
+        <div className={styles.cardTitle}>AI SCAN DISTRIBUTION</div>
         <div className={styles.tabs}>
           <button
-            className={`${styles.tab} ${activeTab === 'week' ? styles.tabOn : styles.tabOff}`}
-            onClick={() => setActiveTab('week')}
+            className={`${styles.tab} ${activeTab === "week" ? styles.tabOn : styles.tabOff}`}
+            onClick={() => onTabChange("week")}
           >
             Week
           </button>
           <button
-            className={`${styles.tab} ${activeTab === 'month' ? styles.tabOn : styles.tabOff}`}
-            onClick={() => setActiveTab('month')}
+            className={`${styles.tab} ${activeTab === "month" ? styles.tabOn : styles.tabOff}`}
+            onClick={() => onTabChange("month")}
           >
             Month
           </button>
         </div>
       </div>
 
-      <div className={styles.chartWrap}>
+      <div className={styles.chartWrap} style={{ position: "relative" }}>
+        {data.length === 0 && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "11px",
+              color: "rgba(255,255,255,0.3)",
+              fontFamily: "var(--font)",
+              letterSpacing: "0.5px",
+            }}
+          >
+            Belum ada riwayat pemindaian{" "}
+            {activeTab === "week" ? "minggu" : "bulan"} ini
+          </div>
+        )}
         <AnimatePresence mode="wait">
           <motion.svg
             key={activeTab}
             viewBox="0 0 560 90"
+            preserveAspectRatio="none"
             xmlns="http://www.w3.org/2000/svg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -89,61 +128,119 @@ export default function InsightsChart({ data, quote }: InsightsChartProps) {
           >
             <defs>
               <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stopColor="#4ade80" stopOpacity="0.20"/>
-                <stop offset="100%" stopColor="#4ade80" stopOpacity="0"/>
+                <stop offset="0%" stopColor="#4ade80" stopOpacity="0.20" />
+                <stop offset="100%" stopColor="#4ade80" stopOpacity="0" />
               </linearGradient>
             </defs>
             {/* grid lines */}
-            <line x1="0" y1="22" x2="560" y2="22" stroke="#1a2a1a" strokeWidth="0.5"/>
-            <line x1="0" y1="44" x2="560" y2="44" stroke="#1a2a1a" strokeWidth="0.5"/>
-            <line x1="0" y1="66" x2="560" y2="66" stroke="#1a2a1a" strokeWidth="0.5"/>
+            <line
+              x1="0"
+              y1="22"
+              x2="560"
+              y2="22"
+              stroke="#1a2a1a"
+              strokeWidth="0.5"
+            />
+            <line
+              x1="0"
+              y1="44"
+              x2="560"
+              y2="44"
+              stroke="#1a2a1a"
+              strokeWidth="0.5"
+            />
+            <line
+              x1="0"
+              y1="66"
+              x2="560"
+              y2="66"
+              stroke="#1a2a1a"
+              strokeWidth="0.5"
+            />
             {/* area fill */}
-            <motion.polygon
-              points={polygon}
-              fill="url(#chartGrad)"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.15, duration: 0.6 }}
-            />
+            {data.length > 0 && (
+              <motion.polygon
+                points={polygon}
+                fill="url(#chartGrad)"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.15, duration: 0.6 }}
+              />
+            )}
             {/* line */}
-            <motion.polyline
-              points={polyline}
-              fill="none"
-              stroke="#4ade80"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.8, ease: 'easeOut' }}
-            />
-            {/* peak dot */}
-            <motion.circle
-              cx={peak.cx}
-              cy={peak.cy}
-              r="4"
-              fill="#4ade80"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.9, duration: 0.3 }}
-            />
-            <motion.circle
-              cx={peak.cx}
-              cy={peak.cy}
-              r="7"
-              fill="#4ade80"
-              opacity="0.2"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.95, duration: 0.35 }}
-            />
+            {data.length > 0 && (
+              <motion.polyline
+                points={polyline}
+                fill="none"
+                stroke="#4ade80"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+              />
+            )}
+            {/* Value markers and labels */}
+            {data.length > 0 &&
+              points.map((p, idx) => (
+                <g key={idx}>
+                  {/* circle background glow */}
+                  <circle
+                    cx={p.x}
+                    cy={p.y}
+                    r="7"
+                    fill="#4ade80"
+                    opacity="0.18"
+                  />
+                  {/* circle point */}
+                  <circle cx={p.x} cy={p.y} r="3.5" fill="#4ade80" />
+                </g>
+              ))}
           </motion.svg>
         </AnimatePresence>
+
+        {/* Absolute HTML overlay to prevent distorted/squashed font (penyok) */}
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+          {data.length > 0 &&
+            points.map((p, idx) => {
+              if (p.value <= 0) return null;
+              const leftPercent = (p.x / 560) * 100;
+              const topPercent = (p.y / 90) * 100;
+              return (
+                <div
+                  key={idx}
+                  style={{
+                    position: "absolute",
+                    left: `${leftPercent}%`,
+                    top: `${topPercent}%`,
+                    transform: `translate(${idx === 0 ? "0%" : idx === points.length - 1 ? "-100%" : "-50%"}, -100%) translateY(-6px)`,
+                    color: "#4ade80",
+                    fontSize: "10px",
+                    fontWeight: "800",
+                    fontFamily: "var(--mono)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {p.value} {p.value === 1 ? "scan" : "scans"}
+                </div>
+              );
+            })}
+        </div>
       </div>
 
       <div className={styles.chartLabels}>
-        {currentData.map((d) => (
-          <span key={d.week}>{d.week}</span>
+        {data.map((d) => (
+          <span
+            key={d.week}
+            style={{
+              color: "var(--text-hi)",
+              fontWeight: 600,
+              fontSize: "10px",
+            }}
+          >
+            {d.week}
+          </span>
         ))}
       </div>
 

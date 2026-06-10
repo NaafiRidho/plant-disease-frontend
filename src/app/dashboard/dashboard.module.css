@@ -10,14 +10,14 @@
   --orange:      #fb923c;
   --red:         #f87171;
   --purple:      #818cf8;
-  --db-bg:       #0d1410;
-  --bg-card:     #121a13;
-  --bg-card2:    #0f160f;
-  --border:      rgba(74,222,128,0.10);
-  --border-mid:  rgba(74,222,128,0.18);
-  --text-hi:     #e6f4e6;
-  --text-mid:    #8aaa8a;
-  --text-lo:     #445a44;
+  --db-bg:       #020b14;
+  --bg-card:     #0a1929;
+  --bg-card2:    #030e1a;
+  --border:      rgba(255,255,255,0.06);
+  --border-mid:  rgba(255,255,255,0.12);
+  --text-hi:     #f0fdf4;
+  --text-mid:    rgba(240,253,244,0.6);
+  --text-lo:     rgba(240,253,244,0.35);
   --font:        'Space Grotesk', sans-serif;
   --mono:        'DM Mono', monospace;
 
@@ -65,7 +65,7 @@
   align-items: center;
   gap: 14px;
   padding: 10px 22px;
-  background: #0e1710;
+  background: #020b14;
   border-bottom: 0.5px solid var(--border);
   position: sticky;
   top: 0;
@@ -77,7 +77,7 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  background: #131d14;
+  background: #030e1a;
   border: 0.5px solid var(--border-mid);
   border-radius: 22px;
   padding: 7px 16px;
@@ -119,8 +119,8 @@
 .avatar {
   width: 33px; height: 33px;
   border-radius: 50%;
-  background: #162a18;
-  border: 1.5px solid rgba(74,222,128,0.35);
+  background: #0a1929;
+  border: 1.5px solid rgba(59,130,246,0.35);
   display: flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 700; color: var(--green);
   flex-shrink: 0;
@@ -129,10 +129,9 @@
 /* ─── PAGE LAYOUT ────────────────────────────────────────── */
 .page {
   display: grid;
-  /* 65% untuk konten utama (kiri), 35% untuk enviro (kanan) */
-  grid-template-columns: 1.8fr 1fr; 
+  grid-template-columns: 1fr; 
   gap: 1.5rem;
-  padding: 2rem;
+  padding: 88px 2rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -158,7 +157,7 @@
 
 @media (max-width: 768px) {
   .page {
-    padding: 1rem;
+    padding: 88px 1rem 1rem;
     gap: 1rem;
   }
   .statsRow {
@@ -295,7 +294,7 @@
 .tabOff:hover { color: var(--text-mid); }
 .tabOn { background: var(--green); color: #061008; border-color: var(--green); }
 
-.chartWrap { height: 90px; margin-bottom: 6px; }
+.chartWrap { height: 180px; margin-bottom: 6px; }
 .chartWrap svg { width: 100%; height: 100%; }
 .chartLabels {
   display: flex; justify-content: space-between;
@@ -385,7 +384,7 @@
 
 /* ─── LOADING SKELETON ───────────────────────────────────── */
 .skeleton {
-  background: linear-gradient(90deg, #121a13 25%, #1a2a1b 50%, #121a13 75%);
+  background: linear-gradient(90deg, #0a1929 25%, #132f4c 50%, #0a1929 75%);
   background-size: 400% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
   border-radius: 8px;
