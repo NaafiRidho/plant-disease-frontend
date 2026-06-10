@@ -122,6 +122,7 @@ import { DashboardData } from '@/types';
 const MOCK_DASHBOARD: DashboardData = {
   stats: {
     totalScans: 3,
+    healthyScans: 1,
     alerts: 2,
     criticalAlerts: 2,
     healthIndex: 94,
