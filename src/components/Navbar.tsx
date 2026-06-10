@@ -9,6 +9,7 @@ import { useAuth } from '@/components/AuthContext';
 
 const navLinks = [
   { href: '/', label: 'Beranda' },
+  { href: '/dashboard', label: 'Dasbor' },
   { href: '/deteksi', label: 'Deteksi' },
   { href: '/tentang', label: 'Tentang' },
 ];
@@ -71,29 +72,31 @@ export default function Navbar() {
             height: '72px',
           }}>
             {/* Logo */}
-            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Link href="/" style={{
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '9px',
+              fontFamily: "'Syne', sans-serif",
+              fontSize: '18px',
+              fontWeight: 800,
+              color: '#e8f5e8'
+            }}>
               <div style={{
-                width: 40,
-                height: 40,
-                borderRadius: 12,
-                background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                width: '26px',
+                height: '26px',
+                borderRadius: '50%',
+                background: 'radial-gradient(circle at 40% 40%, #4ade80, #166534)',
+                boxShadow: '0 0 12px rgba(74,222,128,0.5)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 4px 20px rgba(34,197,94,0.45)',
+                fontSize: '13px',
               }}>
-                <Leaf size={21} color="white" />
+                🌿
               </div>
-              <span style={{
-                fontFamily: 'Outfit, sans-serif',
-                fontSize: '1.2rem',
-                fontWeight: 700,
-                background: 'linear-gradient(135deg, #4ade80, #22c55e)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}>
-                PlantScan<span style={{ WebkitTextFillColor: 'rgba(134,239,172,0.7)', color: 'rgba(134,239,172,0.7)' }}> AI</span>
+              <span>
+                Plant<span style={{ color: '#4ade80' }}>Scan AI</span>
               </span>
             </Link>
 
@@ -202,6 +205,22 @@ export default function Navbar() {
                           
                           <div style={{ height: '1px', background: 'rgba(34, 197, 94, 0.15)', margin: '4px 0' }} />
                           
+                          {/* Navigasi Ke Profil */}
+                          <Link href="/profile" style={{
+                            padding: '8px 12px',
+                            borderRadius: '8px',
+                            fontSize: '0.85rem',
+                            color: 'rgba(240, 253, 244, 0.85)',
+                            textDecoration: 'none',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            transition: 'all 0.15s ease',
+                          }} className="dropdown-item-hover">
+                            <UserIcon size={14} color="#4ade80" />
+                            Lihat Profil Anda
+                          </Link>
+
                           <Link href="/deteksi" style={{
                             padding: '8px 12px',
                             borderRadius: '8px',
@@ -386,8 +405,11 @@ export default function Navbar() {
                         {user.username.substring(0, 1).toUpperCase()}
                       </div>
                       <div>
-                        <div style={{ fontSize: '0.9rem', color: '#f0fdf4', fontWeight: 600 }}>{user.username}</div>
-                        <div style={{ fontSize: '0.75rem', color: 'rgba(134, 239, 172, 0.6)' }}>{user.email}</div>
+                        {/* Nama & link profile untuk versi mobile */}
+                        <Link href="/profile" onClick={() => setIsMenuOpen(false)} style={{ textDecoration: 'none' }}>
+                          <div style={{ fontSize: '0.9rem', color: '#f0fdf4', fontWeight: 600 }}>{user.username}</div>
+                          <div style={{ fontSize: '0.75rem', color: 'rgba(134, 239, 172, 0.6)' }}>Lihat Profil &rarr;</div>
+                        </Link>
                       </div>
                     </div>
                     

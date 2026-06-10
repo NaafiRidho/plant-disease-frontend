@@ -117,3 +117,83 @@ export async function apiLogout(): Promise<{ message: string; status: number }> 
   return response.data;
 }
 
+// ─── Dashboard API ──────────────────────────────────────────
+
+import { DashboardData } from '@/types';
+
+/** Mock data fallback for dashboard */
+const MOCK_DASHBOARD: DashboardData = {
+  stats: {
+    totalScans: 3,
+    alerts: 2,
+    criticalAlerts: 2,
+    healthIndex: 94,
+  },
+  scans: [
+    {
+      id: 1,
+      name: 'Pothos N-Joy',
+      status: 'healthy',
+      statusLabel: 'HEALTHY',
+      description: 'No pathogens detected...',
+      timeAgo: '2 MINS AGO',
+      emoji: '🌿',
+      thumbBg: '#0a2a0a',
+    },
+    {
+      id: 2,
+      name: 'Ficus Lyrata',
+      status: 'alert',
+      statusLabel: 'ALERT',
+      description: 'Early Blight Detected (74% confidence)',
+      timeAgo: '18 MINS AGO',
+      emoji: '🍃',
+      thumbBg: '#1e180a',
+    },
+    {
+      id: 3,
+      name: 'System Calibration',
+      status: 'system',
+      statusLabel: 'SYSTEM',
+      description: 'Sensor Node #124 recalibrated successfully.',
+      timeAgo: '1 HOUR AGO',
+      emoji: '🌱',
+      thumbBg: '#0e0e22',
+    },
+  ],
+  environmentals: {
+    humidity: 68,
+    temperature: 24.5,
+    co2: 420,
+    vpd: 0.95,
+  },
+  growthData: [
+    { week: 'WEEK 01', value: 72 },
+    { week: 'WEEK 02', value: 55 },
+    { week: 'WEEK 03', value: 32 },
+    { week: 'WEEK 04', value: 50 },
+  ],
+  monitor: {
+    zone: 'A-04',
+    plantName: 'Monstera Deliciosa Elite',
+    photosynthesisRate: 98.2,
+    stomataStatus: 'Optimal',
+  },
+  insightQuote:
+    'Predicted biomass increase of 14.2% over the next 72 hours due to optimized nutrient injection in Zone A-04.',
+};
+
+/**
+ * Fetch dashboard data. Falls back to mock data if the backend
+ * endpoint is not available.
+ */
+export async function getDashboardData(): Promise<DashboardData> {
+  try {
+    const response = await api.get<DashboardData>('/api/dashboard');
+    return response.data;
+  } catch {
+    // Graceful fallback to mock data when endpoint is unavailable
+    return MOCK_DASHBOARD;
+  }
+}
+
