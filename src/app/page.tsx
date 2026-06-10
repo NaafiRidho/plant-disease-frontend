@@ -1,14 +1,15 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function HomePage() {
   return (
     <div className="landing-page">
       {/* Scope all landing page specific styling within .landing-page */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap");
         @import url("https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css");
 
@@ -157,91 +158,101 @@ export default function HomePage() {
           position: relative; display: flex; align-items: center; justify-content: center;
         }
         .landing-page .phone-frame {
-          width: 280px; height: 380px;
-          background: linear-gradient(145deg, #0f1f10, #0a1a0b);
-          border: 1.5px solid var(--border2);
-          border-radius: 28px;
+          width: 440px; height: 540px;
+          background: #000;
+          border-radius: 32px;
           position: relative; overflow: hidden;
-          box-shadow: 0 0 60px rgba(74,222,128,0.12), 0 40px 80px rgba(0,0,0,0.6);
-        }
-        .landing-page .phone-frame::before {
-          content: '';
-          position: absolute; inset: 0;
-          background: radial-gradient(ellipse at 50% 30%, rgba(74,222,128,0.12) 0%, transparent 60%);
+          box-shadow: 0 0 80px rgba(74,222,128,0.1), 0 40px 80px rgba(0,0,0,0.8);
+          border: 1px solid rgba(255,255,255,0.05);
         }
         .landing-page .phone-leaf {
           position: absolute; inset: 0;
           display: flex; align-items: center; justify-content: center;
         }
-        .landing-page .phone-leaf svg { width: 100%; height: 100%; opacity: 0.85; }
+        .landing-page .phone-leaf img { width: 100%; height: 100%; object-fit: cover; }
         .landing-page .scan-line {
-          position: absolute; top: 0; left: 0; right: 0; height: 3px;
+          position: absolute; top: 0; left: 0; right: 0; height: 4px;
           background: linear-gradient(90deg, transparent, var(--green), transparent);
-          animation: scan 2.5s ease-in-out infinite;
-          box-shadow: 0 0 12px var(--green);
+          animation: scan 3s ease-in-out infinite;
+          box-shadow: 0 0 20px var(--green);
         }
         @keyframes scan {
-          0%  { top: 10%; opacity: 0; }
+          0%  { top: 5%; opacity: 0; }
           10% { opacity: 1; }
           90% { opacity: 1; }
-          100%{ top: 90%; opacity: 0; }
+          100%{ top: 95%; opacity: 0; }
         }
-        .landing-page .scan-corners {
-          position: absolute; inset: 16px;
-          border: 1.5px solid rgba(74,222,128,0.3);
-          border-radius: 12px;
-          pointer-events: none;
-        }
-        .landing-page .scan-corners::before, .landing-page .scan-corners::after {
-          content: '';
-          position: absolute;
-          width: 18px; height: 18px;
-          border-color: var(--green);
-          border-style: solid;
-        }
-        .landing-page .scan-corners::before { top: -1.5px; left: -1.5px; border-width: 2px 0 0 2px; border-radius: 3px 0 0 0; }
-        .landing-page .scan-corners::after  { bottom: -1.5px; right: -1.5px; border-width: 0 2px 2px 0; border-radius: 0 0 3px 0; }
+        
         .landing-page .phone-badge-top {
-          position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
-          background: rgba(74,222,128,0.15);
-          border: 0.5px solid var(--border2);
-          border-radius: 10px; padding: 5px 12px;
-          font-size: 11px; font-weight: 700; color: var(--green);
-          font-family: var(--font-mono) !important; white-space: nowrap;
-          display: flex; align-items: center; gap: 6px;
+          position: absolute; top: 60px; right: 40px;
+          background: rgba(20, 30, 20, 0.7);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(74,222,128,0.3);
+          border-radius: 20px; padding: 10px 20px;
+          font-size: 15px; font-weight: 700; color: #fff;
+          font-family: var(--font-body) !important; white-space: nowrap;
+          display: flex; align-items: center; gap: 8px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .landing-page .phone-badge-top i { font-size: 13px; }
+        .landing-page .phone-badge-top i { font-size: 20px; color: var(--green); }
         .landing-page .phone-status {
-          position: absolute; bottom: 0; left: 0; right: 0;
-          background: linear-gradient(to top, rgba(5,15,5,0.97), rgba(5,15,5,0.6));
-          padding: 14px 16px 16px;
+          position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+          width: 85%;
+          background: rgba(20, 30, 20, 0.7);
+          backdrop-filter: blur(16px);
+          border: 1px solid rgba(255,255,255,0.05);
+          border-radius: 20px;
+          padding: 24px;
+          display: flex; flex-direction: column; gap: 16px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .landing-page .phone-status-text {
           display: flex; justify-content: space-between; align-items: center;
+          width: 100%;
         }
         .landing-page .status-tag {
-          font-size: 11px; font-weight: 800;
-          color: var(--green); letter-spacing: 1px;
+          font-size: 15px; font-weight: 600;
+          color: var(--green); letter-spacing: 0.5px;
         }
-        .landing-page .status-complete { font-size: 10px; color: var(--text-mid); }
+        .landing-page .status-complete { font-size: 13px; color: #ccc; }
+        .landing-page .progress-bar {
+          width: 100%; height: 6px; background: rgba(74,222,128,0.15); border-radius: 10px; overflow: hidden;
+        }
+        .landing-page .progress-fill {
+          height: 100%; width: 100%; background: var(--green); border-radius: 10px;
+          box-shadow: 0 0 10px var(--green);
+        }
 
         /* floating chips */
         .landing-page .chip {
           position: absolute;
-          background: rgba(10,22,11,0.92);
-          border: 0.5px solid var(--border2);
-          border-radius: 12px; padding: 8px 14px;
-          font-size: 11px; font-weight: 600;
-          display: flex; align-items: center; gap: 7px;
-          backdrop-filter: blur(8px);
-          animation: float 4s ease-in-out infinite;
+          background: rgba(25, 30, 25, 0.85);
+          border: 1px solid rgba(255,255,255,0.05);
+          border-radius: 50%;
+          display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+          backdrop-filter: blur(12px);
+          animation: float 5s ease-in-out infinite;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
-        .landing-page .chip i { font-size: 15px; color: var(--green); }
-        .landing-page .chip-neural { top: 30px; left: -30px; color: var(--text-mid); animation-delay: 0s; }
-        .landing-page .chip-neural .dot-small { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 1.2s infinite; }
+        .landing-page .chip-neural {
+          top: -20px; left: -40px; width: 130px; height: 130px; animation-delay: 0s; z-index: 10;
+        }
+        .landing-page .chip-neural .icon-wrapper {
+          display: flex; align-items: center; justify-content: center;
+          color: var(--green); font-size: 32px;
+        }
+        .landing-page .chip-neural .chip-text {
+          font-size: 12px; font-weight: 600; text-align: center; color: #fff;
+        }
+        .landing-page .chip-flask {
+          right: -45px; top: 60%; transform: translateY(-50%); width: 90px; height: 90px; animation: float2 5s ease-in-out infinite; animation-delay: 1.5s; z-index: 10;
+        }
+        .landing-page .chip-flask i {
+          font-size: 28px; color: var(--green);
+        }
         
-        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-        @keyframes float2 { 0%,100%{transform:translateY(-50%)} 50%{transform:translateY(calc(-50% - 8px))} }
-        
-        .landing-page .chip-flask { right: -20px; top: 40%; transform: translateY(-50%); color: var(--text-mid); animation: float2 4s ease-in-out infinite; animation-delay: 1.2s; }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+        @keyframes float2 { 0%,100%{transform:translateY(-50%)} 50%{transform:translateY(calc(-50% - 12px))} }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
         /* ── STATS BAR ─────────────────────────────── */
@@ -264,13 +275,40 @@ export default function HomePage() {
           padding: 28px 24px;
           text-align: center;
           position: relative;
-          transition: background 0.2s;
+          transition: all 0.2s;
         }
         .landing-page .stat-item:hover { background: var(--card2); }
-        .landing-page .stat-item i {
+        .landing-page .stat-item .stat-main-icon {
           font-size: 26px; color: var(--green);
           margin-bottom: 10px; display: block;
           opacity: 0.8;
+        }
+        .landing-page .stats-inner a {
+          text-decoration: none !important;
+          color: inherit;
+          display: block;
+        }
+        .landing-page .stat-item.clickable {
+          border-bottom: 2px solid transparent;
+        }
+        .landing-page .stat-item.clickable:hover {
+          background: rgba(74,222,128,0.05);
+          border-bottom-color: var(--green);
+        }
+        .landing-page .stat-item.clickable:hover .stat-link-icon {
+          background: var(--green);
+          color: #000;
+          transform: translate(2px, -2px);
+        }
+        .landing-page .stat-link-icon {
+          position: absolute; top: 16px; right: 16px;
+          width: 28px; height: 28px;
+          border-radius: 50%;
+          background: rgba(74,222,128,0.15);
+          color: var(--green);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 16px;
+          transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         .landing-page .stat-num {
           font-size: 32px; font-weight: 800;
@@ -458,7 +496,9 @@ export default function HomePage() {
           .landing-page .footer-links { gap: 24px; }
           .landing-page .phone-frame { width: 230px; height: 310px; }
         }
-      ` }} />
+      `,
+        }}
+      />
 
       <div className="noise-overlay" />
 
@@ -479,28 +519,32 @@ export default function HomePage() {
 
             {/* Title with Scan Icon */}
             <div className="hero-title-row">
-              <div style={{
-                width: '42px',
-                height: '42px',
-                borderRadius: '10px',
-                border: '1.5px solid rgba(74,222,128,0.3)',
-                background: 'rgba(74,222,128,0.08)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'var(--green)',
-                fontSize: '20px',
-                flexShrink: 0
-              }}>
+              <div
+                style={{
+                  width: "42px",
+                  height: "42px",
+                  borderRadius: "10px",
+                  border: "1.5px solid rgba(74,222,128,0.3)",
+                  background: "rgba(74,222,128,0.08)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "var(--green)",
+                  fontSize: "20px",
+                  flexShrink: 0,
+                }}
+              >
                 <i className="ti ti-scan"></i>
               </div>
-              <h1 style={{ textAlign: 'left' }}>
-                <span style={{ color: 'var(--green)' }}>Deteksi Penyakit</span> Tanaman
+              <h1 style={{ textAlign: "left" }}>
+                <span style={{ color: "var(--green)" }}>Deteksi Penyakit</span>{" "}
+                Tanaman
               </h1>
             </div>
 
-            <p style={{ textAlign: 'left' }}>
-              Upload foto daun tanaman untuk mendeteksi penyakit secara otomatis menggunakan AI
+            <p style={{ textAlign: "left" }}>
+              Upload foto daun tanaman untuk mendeteksi penyakit secara otomatis
+              menggunakan AI
             </p>
 
             <div className="hero-btns">
@@ -521,63 +565,47 @@ export default function HomePage() {
             className="hero-visual"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.8,
+              delay: 0.15,
+              ease: [0.22, 1, 0.36, 1],
+            }}
           >
-            {/* Floating chips */}
-            <div className="chip chip-neural">
-              <div className="dot-small"></div>
-              Neural Net
-            </div>
-            <div className="chip chip-flask">
-              <i className="ti ti-flask"></i>
-            </div>
+            <div style={{ position: "relative" }}>
+              {/* Phone frame */}
+              <div className="phone-frame">
+                <div className="phone-leaf">
+                  <img
+                    src="/assets/ilustrasi.png"
+                    alt="Ilustrasi Daun"
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </div>
+                <div className="scan-line"></div>
+                <div className="phone-badge-top">
+                  <i className="ti ti-rosette-discount-check"></i>
+                  98.4% Match
+                </div>
+                <div className="phone-status">
+                  <div className="phone-status-text">
+                    <div className="status-tag">DIAGNOSA: SEHAT</div>
+                    <div className="status-complete">Scanning Complete</div>
+                  </div>
+                  <div className="progress-bar">
+                    <div className="progress-fill"></div>
+                  </div>
+                </div>
+              </div>
 
-            {/* Phone frame */}
-            <div className="phone-frame">
-              <div className="phone-leaf">
-                <svg viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <radialGradient id="lg1" cx="50%" cy="40%" r="60%">
-                      <stop offset="0%" stopColor="#1a4a1a" stopOpacity="0.9" />
-                      <stop offset="100%" stopColor="#091209" stopOpacity="1" />
-                    </radialGradient>
-                    <radialGradient id="gl" cx="50%" cy="40%" r="50%">
-                      <stop offset="0%" stopColor="#4ade80" stopOpacity="0.15" />
-                      <stop offset="100%" stopColor="transparent" stopOpacity="0" />
-                    </radialGradient>
-                  </defs>
-                  <rect width="280" height="380" fill="url(#lg1)" />
-                  <ellipse cx="140" cy="220" rx="130" ry="130" fill="url(#gl)" />
-                  {/* leaf body */}
-                  <ellipse cx="140" cy="200" rx="100" ry="120" fill="#0f2a0f" opacity="0.9" />
-                  <ellipse cx="95" cy="175" rx="80" ry="95" fill="#0d250d" transform="rotate(-25 95 175)" />
-                  <ellipse cx="185" cy="170" rx="75" ry="88" fill="#0c220c" transform="rotate(22 185 170)" />
-                  <ellipse cx="140" cy="265" rx="90" ry="55" fill="#112511" transform="rotate(-5 140 265)" />
-                  {/* stem */}
-                  <line x1="140" y1="200" x2="140" y2="48" stroke="#1e5a1e" strokeWidth="3" strokeLinecap="round" />
-                  {/* veins */}
-                  <line x1="140" y1="200" x2="82" y2="130" stroke="#1a4a1a" strokeWidth="2" />
-                  <line x1="140" y1="200" x2="198" y2="125" stroke="#1a4a1a" strokeWidth="2" />
-                  <line x1="140" y1="200" x2="72" y2="195" stroke="#1a4a1a" strokeWidth="2" />
-                  <line x1="140" y1="200" x2="208" y2="200" stroke="#1a4a1a" strokeWidth="2" />
-                  <line x1="140" y1="200" x2="90" y2="255" stroke="#1a4a1a" strokeWidth="1.5" />
-                  <line x1="140" y1="200" x2="190" y2="258" stroke="#1a4a1a" strokeWidth="1.5" />
-                  {/* sub-veins */}
-                  <line x1="140" y1="200" x2="108" y2="85" stroke="#163216" strokeWidth="1.2" />
-                  <line x1="140" y1="200" x2="172" y2="80" stroke="#163216" strokeWidth="1.2" />
-                  {/* glow overlay */}
-                  <ellipse cx="140" cy="190" rx="70" ry="80" fill="none" stroke="#4ade80" strokeWidth="0.5" strokeDasharray="4 6" opacity="0.3" />
-                </svg>
+              {/* Floating chips */}
+              <div className="chip chip-neural">
+                <div className="icon-wrapper">
+                  <i className="ti ti-brain"></i>
+                </div>
+                <div className="chip-text">Neural Net</div>
               </div>
-              <div className="scan-corners"></div>
-              <div className="scan-line"></div>
-              <div className="phone-badge-top">
-                <i className="ti ti-check"></i>
-                98.4% Match
-              </div>
-              <div className="phone-status">
-                <div className="status-tag">DIAGNOSA: SEHAT</div>
-                <div className="status-complete">Scanning Complete</div>
+              <div className="chip chip-flask">
+                <i className="ti ti-flask"></i>
               </div>
             </div>
           </motion.div>
@@ -587,28 +615,30 @@ export default function HomePage() {
       {/* ── STATS BAR SECTION ── */}
       <section className="stats-bar">
         <div className="stats-inner">
-          <a href="/daftarpenyakit">
-            <div className="stat-item">
-              <i className="ti ti-virus"></i>
+          <Link href="/daftarpenyakit" style={{ textDecoration: 'none' }}>
+            <div className="stat-item clickable">
+              <i className="ti ti-arrow-up-right stat-link-icon"></i>
+              <i className="ti ti-virus stat-main-icon"></i>
               <div className="stat-num">15+</div>
               <div className="stat-label">Jenis Penyakit</div>
             </div>
-          </a>
-          <a href="/spesiestanaman">
-            <div className="stat-item">
-              <i className="ti ti-trees"></i>
+          </Link>
+          <Link href="/spesiestanaman" style={{ textDecoration: 'none' }}>
+            <div className="stat-item clickable">
+              <i className="ti ti-arrow-up-right stat-link-icon"></i>
+              <i className="ti ti-trees stat-main-icon"></i>
               <div className="stat-num">3</div>
               <div className="stat-label">Spesies Utama</div>
             </div>
-          </a>
+          </Link>
 
           <div className="stat-item">
-            <i className="ti ti-database"></i>
+            <i className="ti ti-database stat-main-icon"></i>
             <div className="stat-num">87K+</div>
             <div className="stat-label">Dataset Ahli</div>
           </div>
           <div className="stat-item">
-            <i className="ti ti-target"></i>
+            <i className="ti ti-target stat-main-icon"></i>
             <div className="stat-num">95%+</div>
             <div className="stat-label">Akurasi Model</div>
           </div>
@@ -619,29 +649,54 @@ export default function HomePage() {
       <section className="features">
         <div className="section-header">
           <div className="section-tag">Kemampuan Sistem</div>
-          <h2 className="section-title">Fitur <span>Unggulan</span></h2>
-          <p className="section-sub">Teknologi mutakhir untuk membantu Anda merawat ekosistem hijau dengan lebih cerdas dan efisien.</p>
+          <h2 className="section-title">
+            Fitur <span>Unggulan</span>
+          </h2>
+          <p className="section-sub">
+            Teknologi mutakhir untuk membantu Anda merawat ekosistem hijau
+            dengan lebih cerdas dan efisien.
+          </p>
         </div>
         <div className="features-grid">
           <div className="feat-card">
-            <div className="feat-icon"><i className="ti ti-file-upload"></i></div>
+            <div className="feat-icon">
+              <i className="ti ti-file-upload"></i>
+            </div>
             <div className="feat-title">Upload Mudah</div>
-            <p className="feat-desc">Cukup tarik dan lepaskan foto daun tanaman Anda langsung dari galeri atau kamera handphone.</p>
+            <p className="feat-desc">
+              Cukup tarik dan lepaskan foto daun tanaman Anda langsung dari
+              galeri atau kamera handphone.
+            </p>
           </div>
           <div className="feat-card">
-            <div className="feat-icon"><i className="ti ti-bolt"></i></div>
+            <div className="feat-icon">
+              <i className="ti ti-bolt"></i>
+            </div>
             <div className="feat-title">Deteksi Instan</div>
-            <p className="feat-desc">Arsitektur Neural Network memberikan hasil diagnosa dalam hitungan milidetik secara real-time.</p>
+            <p className="feat-desc">
+              Arsitektur Neural Network memberikan hasil diagnosa dalam hitungan
+              milidetik secara real-time.
+            </p>
           </div>
           <div className="feat-card">
-            <div className="feat-icon"><i className="ti ti-user-search"></i></div>
+            <div className="feat-icon">
+              <i className="ti ti-user-search"></i>
+            </div>
             <div className="feat-title">Panduan Ahli</div>
-            <p className="feat-desc">Akses database agronomi yang komprehensif untuk langkah penanganan yang tepat dan akurat.</p>
+            <p className="feat-desc">
+              Akses database agronomi yang komprehensif untuk langkah penanganan
+              yang tepat dan akurat.
+            </p>
           </div>
           <div className="feat-card">
-            <div className="feat-icon"><i className="ti ti-microscope"></i></div>
+            <div className="feat-icon">
+              <i className="ti ti-microscope"></i>
+            </div>
             <div className="feat-title">Analisis Akurat</div>
-            <p className="feat-desc">Verifikasi ilmiah menggunakan ribuan dataset tervalidasi oleh pakar patologi tanaman.</p>
+            <p className="feat-desc">
+              Verifikasi ilmiah menggunakan ribuan dataset tervalidasi oleh
+              pakar patologi tanaman.
+            </p>
           </div>
         </div>
       </section>
@@ -649,14 +704,29 @@ export default function HomePage() {
       {/* ── CTA SECTION ── */}
       <section className="cta-section">
         <div className="cta-inner">
-          <div className="cta-icon"><i className="ti ti-cloud-upload"></i></div>
-          <h2 className="cta-title">Mulai <span>Deteksi</span></h2>
-          <p className="cta-sub">Mulai deteksi sekarang dengan mengunggah foto daun yang bermasalah. Pastikan pencahayaan cukup dan fokus.</p>
-          <div className="cta-tags">
-            <div className="cta-tag"><i className="ti ti-check"></i> JPG, PNG, WebP</div>
-            <div className="cta-tag"><i className="ti ti-check"></i> AI Processing</div>
+          <div className="cta-icon">
+            <i className="ti ti-cloud-upload"></i>
           </div>
-          <Link href="/deteksi" className="btn-primary" style={{ fontSize: '15px' }}>
+          <h2 className="cta-title">
+            Mulai <span>Deteksi</span>
+          </h2>
+          <p className="cta-sub">
+            Mulai deteksi sekarang dengan mengunggah foto daun yang bermasalah.
+            Pastikan pencahayaan cukup dan fokus.
+          </p>
+          <div className="cta-tags">
+            <div className="cta-tag">
+              <i className="ti ti-check"></i> JPG, PNG, WebP
+            </div>
+            <div className="cta-tag">
+              <i className="ti ti-check"></i> AI Processing
+            </div>
+          </div>
+          <Link
+            href="/deteksi"
+            className="btn-primary"
+            style={{ fontSize: "15px" }}
+          >
             <i className="ti ti-scan"></i>
             Upload Foto Sekarang
           </Link>
@@ -670,30 +740,50 @@ export default function HomePage() {
             <div className="footer-brand">
               <Link href="/" className="footer-logo">
                 <div className="dot">🌿</div>
-                Plant<span style={{ color: 'var(--green)' }}>Scan AI</span>
+                Plant<span style={{ color: "var(--green)" }}>Scan AI</span>
               </Link>
-              <p className="footer-tagline">© 2026 PlantScan AI Systems. Cultivating the digital wilderness.</p>
+              <p className="footer-tagline">
+                © 2026 PlantScan AI Systems. Cultivating the digital wilderness.
+              </p>
             </div>
             <div className="footer-links">
               <div className="footer-col">
-                <div className="footer-col-title" style={{ color: 'var(--text-lo)', marginBottom: '14px' }}>Produk</div>
+                <div
+                  className="footer-col-title"
+                  style={{ color: "var(--text-lo)", marginBottom: "14px" }}
+                >
+                  Produk
+                </div>
                 <Link href="#">Privacy Policy</Link>
                 <Link href="#">Terms of Service</Link>
               </div>
               <div className="footer-col">
-                <div className="footer-col-title" style={{ color: 'var(--text-lo)', marginBottom: '14px' }}>Developer</div>
+                <div
+                  className="footer-col-title"
+                  style={{ color: "var(--text-lo)", marginBottom: "14px" }}
+                >
+                  Developer
+                </div>
                 <Link href="#">API Documentation</Link>
                 <Link href="#">Botanical Database</Link>
               </div>
             </div>
           </div>
           <div className="footer-bottom">
-            <div className="footer-copy">© 2026 PlantScan AI. All rights reserved.</div>
+            <div className="footer-copy">
+              © 2026 PlantScan AI. All rights reserved.
+            </div>
             <div className="footer-contact">Contact Us</div>
             <div className="footer-icons">
-              <Link href="#"><i className="ti ti-world"></i></Link>
-              <Link href="#"><i className="ti ti-share"></i></Link>
-              <Link href="#"><i className="ti ti-mail"></i></Link>
+              <Link href="#">
+                <i className="ti ti-world"></i>
+              </Link>
+              <Link href="#">
+                <i className="ti ti-share"></i>
+              </Link>
+              <Link href="#">
+                <i className="ti ti-mail"></i>
+              </Link>
             </div>
           </div>
         </div>
