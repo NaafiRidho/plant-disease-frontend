@@ -587,11 +587,13 @@ export default function HomePage() {
       {/* ── STATS BAR SECTION ── */}
       <section className="stats-bar">
         <div className="stats-inner">
-          <div className="stat-item">
-            <i className="ti ti-virus"></i>
-            <div className="stat-num">15+</div>
-            <div className="stat-label">Jenis Penyakit</div>
-          </div>
+          <a href="/daftarpenyakit">
+            <div className="stat-item">
+              <i className="ti ti-virus"></i>
+              <div className="stat-num">15+</div>
+              <div className="stat-label">Jenis Penyakit</div>
+            </div>
+          </a>
           <a href="/spesiestanaman">
             <div className="stat-item">
               <i className="ti ti-trees"></i>
